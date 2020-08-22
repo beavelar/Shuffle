@@ -10,9 +10,9 @@ from discord_util.discord_imp import *
 MOCK_TRIGGER = '!song'
 
 try: 
-    helpMenuFile = open('environment/help_menu.txt', 'r')
+    helpMenuFile = open('support/help_menu.txt', 'r')
 except Exception as ex:
-    print('Exception caught attempting to open environment files')
+    print('Exception caught attempting to open support files')
     print('Please verify .env file exist and is in the correct location')
     print('Exiting..')
     print(str(ex))
@@ -21,7 +21,7 @@ except Exception as ex:
 try:
     HELP_MENU = helpMenuFile.read()
 except Exception as ex:
-    print('Exception caught attempting to read environment files')
+    print('Exception caught attempting to read support files')
     print('Exiting..')
     print(str(ex))
     exit(1)
