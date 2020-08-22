@@ -13,7 +13,7 @@ try:
     helpMenuFile = open('support/help_menu.txt', 'r')
 except Exception as ex:
     print('Exception caught attempting to open support files')
-    print('Please verify .env file exist and is in the correct location')
+    print('Please verify support files exist and are in the correct location')
     print('Exiting..')
     print(str(ex))
     exit(1)
