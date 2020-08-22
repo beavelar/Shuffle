@@ -1,4 +1,6 @@
 import os
+from dotenv import load_dotenv
+
 import discord
 from discord_util.discord_imp import *
 
@@ -25,6 +27,7 @@ except Exception as ex:
     exit(1)
 
 try:
+    load_dotenv()
     BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 except Exception as ex:
     print('Failed to retrieve DISCORD_BOT_TOKEN environment variable')
