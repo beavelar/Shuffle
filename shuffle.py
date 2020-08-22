@@ -7,7 +7,6 @@ from discord_util.discord_imp import *
 MOCK_TRIGGER = '!song'
 
 try: 
-    tokenFile = open('environment/.env', 'r')
     helpMenuFile = open('environment/help_menu.txt', 'r')
 except Exception as ex:
     print('Exception caught attempting to open environment files')
@@ -17,12 +16,19 @@ except Exception as ex:
     exit(1)
 
 try:
-    BOT_TOKEN = tokenFile.read()
     HELP_MENU = helpMenuFile.read()
 except Exception as ex:
     print('Exception caught attempting to read environment files')
     print('Exiting..')
     print(str(ex))
+    exit(1)
+
+try:
+    BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+except Exception as ex:
+    print('Failed to retrieve DISCORD_BOT_TOKEN environment variable')
+    print('Please verify environment variable exists')
+    print('Exiting..')
     exit(1)
 
 client = discord.Client()
