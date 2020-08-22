@@ -1,3 +1,4 @@
+import os
 import discord
 from discord_util.discord_imp import *
 
