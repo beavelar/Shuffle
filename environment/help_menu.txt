@@ -1,0 +1,21 @@
+
+```
+------------------------------------------------------------
+Help Menu
+------------------------------------------------------------
+Shuffle bot messages out a random song every day.  To get an immediate response, use the following commands:
+
+Random Song: !song
+Random Song (Genre Specific): !song "genre"
+Top TikTok song: !song tiktok
+Top song (Genre Specific): !song "genre" top
+
+
+------------------------------------------------------------
+Examples
+------------------------------------------------------------
+Random Song: !song
+Random Song (Genre Specific): !song hip hop
+Top TikTok song: !song tiktok
+Top song (Genre Specific): !song hip hop top
+```
