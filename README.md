@@ -1,5 +1,5 @@
 # Shuffle
-This repository contains code for a Discord bot that displays a random song daily or upon request.
+This repository contains code for a Discord bot that displays a random or popular song daily or upon request.
 
 The goal of the bot is to provide a random song at the ease of the user.
 
@@ -13,6 +13,7 @@ The **Shuffle** Bot can be deployed under their free tier of Heroku if desired.
 - [Heroku Setup](#heroku-setup)
 - [Heroku Deployment](#heroku-deployment)
 - [Stand-Alone Project Setup](#stand-alone-project-setup)
+- [Usage](#usage)
 
 ----------------------------------
 
@@ -43,21 +44,21 @@ The following are permission requirements needed by the MoCk BoT
 - Clone the repository
 - Verify Heroku app has been created within Heroku dashboard
 - Verify you're logged into your Heroku account within your terminal of choice
-  - Execute *heroku login*
+  - Execute **heroku login**
 - Setup Heroku remote branch
-  - Execute *heroku git:remote -a name-of-app*
+  - Execute **heroku git:remote -a _name-of-app_**
 - Push repository onto Heroku branch
-  - Execute *git push heroku master*
+  - Execute **git push heroku master**
   - Heroku will build the app each time a SCM change occurs
-- Add *DISCORD_BOT_TOKEN* as an environment variable by adding it as a **Config Var** within the Heroku dashboard or through the Heroku CLI
+- Add ***DISCORD_BOT_TOKEN*** as an environment variable by adding it as a **Config Var** within the Heroku dashboard or through the Heroku CLI
   - [Heroku Config Var Setup Guide](https://devcenter.heroku.com/articles/config-vars)
-  - Set the value of the *DISCORD_BOT_TOKEN* variable to be the **Shuffle** bot secret token
+  - Set the value of the ***DISCORD_BOT_TOKEN*** variable to be the **Shuffle** bot secret token
 
 ## Heroku Deployment
 - Verify Heroku is setup in you machine
   - Run through steps indicated in [Heroku Setup](#heroku-setup)
 - After commiting changes made locally, push onto the Heroku branch
-  - Execute *git push heroku master*
+  - Execute **git push heroku master**
   - Heroku will build the app each time a SCM change occurs
 - Changes pushed onto Heroku branch will not be transferred onto **Shuffle** repository unless pushed onto repository as well
 
@@ -83,6 +84,20 @@ The following are permission requirements needed by the MoCk BoT
   - Command prompt, GitBash, etc.
 - Navigate to the project base directory
 - Execute the following command to spin up the bot:
-  - *python shuffle.py*
+  - **python shuffle.py**
 - View Discord server
   - **Shuffle Bot** should now appear as online and listening to channel messages
+
+## Usage
+- To bring up the **Shuffle Bot** help menu
+  - **!song help**
+- To request a random song
+  - **!song**
+- To request a random song (Genre specific)
+  - **!song _genre_**
+  - Ex. **!song hip hop**
+- To request the current top song on TikTok
+  - **!song tiktok**
+- To request the current top song (Genre specific)
+  - **!song top _genre_**
+  - Ex. **!song top hip hop**

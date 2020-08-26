@@ -8,7 +8,7 @@ Shuffle bot messages out a random song every day.  To get an immediate response,
 Random Song: !song
 Random Song (Genre Specific): !song "genre"
 Top TikTok song: !song tiktok
-Top song (Genre Specific): !song "genre" top
+Top song (Genre Specific): !song top "genre"
 
 
 ------------------------------------------------------------
@@ -17,5 +17,5 @@ Examples
 Random Song: !song
 Random Song (Genre Specific): !song hip hop
 Top TikTok song: !song tiktok
-Top song (Genre Specific): !song hip hop top
+Top song (Genre Specific): !song top hip hop
 ```
