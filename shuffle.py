@@ -10,7 +10,7 @@ from spotify_util.spotify_util import *
 #########################################################################################################
 # Global definitions
 
-MOCK_TRIGGER = '!song'
+MOCK_TRIGGER = '!shuffle'
 
 try: 
     helpMenuFile = open('support/help_menu.txt', 'r')
@@ -48,7 +48,7 @@ client = discord.Client()
 
 @client.event
 async def on_message(message):
-    # Message isn't from Shuffle bot and message includes !song trigger
+    # Message isn't from Shuffle bot and message includes !shuffle trigger
     if (client.user != message.author) and (MOCK_TRIGGER in message.content):
         if ('help' in message.content):
             await sendMessage(client.user, message.channel, HELP_MENU)

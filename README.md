@@ -94,16 +94,16 @@ The following are permission requirements needed by the MoCk BoT
 
 ## Usage
 - To bring up the **Shuffle Bot** help menu
-  - **!song help**
+  - **!shuffle help**
 - To request a random song
-  - **!song**
+  - **!shuffle**
 - To request a random song (Genre specific)
-  - **!song _genre_**
-  - Ex. **!song hip hop**
+  - **!shuffle _genre_**
+  - Ex. **!shuffle hip hop**
 - To request the current top song (US and Global)
-  - **!song top**
+  - **!shuffle top**
 - To request the current top song on TikTok
-  - **!song tiktok**
+  - **!shuffle tiktok**
 - To request the current top song (Genre specific)
-  - **!song top _genre_**
-  - Ex. **!song top hip hop**
+  - **!shuffle top _genre_**
+  - Ex. **!shuffle top hip hop**
