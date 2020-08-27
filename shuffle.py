@@ -55,9 +55,9 @@ async def on_message(message):
         elif ('top' in message.content):
             topGlobalSong = getTopSong('global', 'Global')
             topUSSong = getTopSong('us', 'US')
-
-            await sendMessage(client.user, message.channel, topGlobalSong.generateReport('Top song'))
-            await sendMessage(client.user, message.channel, topUSSong.generateReport('Top song'))
+            report = topGlobalSong.generateReport('Top song') + '\n' + topUSSong.generateReport('Top song')
+            
+            await sendMessage(client.user, message.channel, report)
 
 
 #########################################################################################################
