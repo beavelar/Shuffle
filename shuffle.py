@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 import discord
 from discord_util.discord_imp import *
 
+from spotify_util.Song import *
+from spotify_util.spotify_util import *
+
 #########################################################################################################
 # Global definitions
 
@@ -49,6 +52,13 @@ async def on_message(message):
     if (client.user != message.author) and (MOCK_TRIGGER in message.content):
         if ('help' in message.content):
             await sendMessage(client.user, message.channel, HELP_MENU)
+        elif ('top' in message.content):
+            topGlobalSong = getTopSong('global', 'Global')
+            topUSSong = getTopSong('us', 'US')
+
+            await sendMessage(client.user, message.channel, topGlobalSong.generateReport('Top song'))
+            await sendMessage(client.user, message.channel, topUSSong.generateReport('Top song'))
+
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up

@@ -96,6 +96,8 @@ The following are permission requirements needed by the MoCk BoT
 - To request a random song (Genre specific)
   - **!song _genre_**
   - Ex. **!song hip hop**
+- To request the current top song (US and Global)
+  - **!song top**
 - To request the current top song on TikTok
   - **!song tiktok**
 - To request the current top song (Genre specific)
