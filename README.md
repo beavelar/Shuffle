@@ -20,10 +20,14 @@ The **Shuffle** Bot can be deployed under their free tier of Heroku if desired.
 ## Project Requirements
 - Python
   - [Python Organization Website](https://www.python.org/)
-- Discord library
+- Discord Python library
   - [Discord.py Installation Guide](https://discordpy.readthedocs.io/en/latest/intro.html)
-- Dotenv library
+- Dotenv Python library
   - [Dotenv Installation Guide](https://pypi.org/project/python-dotenv/)
+- Requests Python library
+  - [Requests Installation Guide](https://pypi.org/project/requests/)
+- BeautifulSoup4 Python library
+  - [BeautifulSoup4 Installation Guide](https://pypi.org/project/beautifulsoup4/)
 - Heroku CLI
   - [Heroku CLI Installation Guide](https://devcenter.heroku.com/articles/heroku-cli)
 

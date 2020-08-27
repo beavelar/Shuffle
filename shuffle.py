@@ -59,7 +59,6 @@ async def on_message(message):
             
             await sendMessage(client.user, message.channel, report)
 
-
 #########################################################################################################
 # On_ready handler - Executes after bot starts up
 
