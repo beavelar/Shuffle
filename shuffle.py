@@ -7,6 +7,9 @@ from discord_util.discord_imp import *
 from spotify_util.Song import *
 from spotify_util.spotify_util import *
 
+from tiktometer_util.Song import *
+from tiktometer_util.tiktometer_util import *
+
 #########################################################################################################
 # Global definitions
 
@@ -58,6 +61,10 @@ async def on_message(message):
             report = topGlobalSong.generateReport('Top song') + '\n\n' + topUSSong.generateReport('Top song')
             
             await sendMessage(client.user, message.channel, report)
+        elif ('tiktok' in message.content):
+            topTikTokSong = getTopTikTokSong()
+            
+            await sendMessage(client.user, message.channel, topTikTokSong.generateReport())
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up

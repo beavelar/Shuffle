@@ -1,7 +1,7 @@
 # Shuffle
 This repository contains code for a Discord bot that displays a random or popular song daily or upon request.
 
-The goal of the bot is to provide a random song at the ease of the user.
+The goal of the bot is to provide a random song at the ease of the user. Uses [SpotifyCharts](https://spotifycharts.com/regional) and [TikTometer](https://tiktometer.com/) for the retrieval of the current top songs.
 
 The **Shuffle** bot can be setup and deployed onto a stand alone system or onto Heroku if desired.
 
