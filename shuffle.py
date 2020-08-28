@@ -58,13 +58,14 @@ async def on_message(message):
         elif ('top' in message.content):
             topGlobalSong = getTopSong('global', 'Global')
             topUSSong = getTopSong('us', 'US')
-            report = topGlobalSong.generateReport('Top song') + '\n\n' + topUSSong.generateReport('Top song')
+            report = topGlobalSong.generateReport() + '\n\n' + topUSSong.generateReport()
             
             await sendMessage(client.user, message.channel, report)
         elif ('tiktok' in message.content):
             topTikTokSong = getTopTikTokSong()
+            report = topTikTokSong.generateReport()
             
-            await sendMessage(client.user, message.channel, topTikTokSong.generateReport())
+            await sendMessage(client.user, message.channel, report)
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up

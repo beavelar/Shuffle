@@ -19,7 +19,9 @@ def getTopSong(region, regionHeading):
     responseParsed = BeautifulSoup(response.text, 'html.parser')
 
     topChartElement = responseParsed.findAll('tr')[1]
-    songName = topChartElement.contents[7].contents[1].contents[0]
-    songStreams = topChartElement.contents[9].contents[0]
 
-    return Song(regionHeading, songName, songStreams)
+    song = topChartElement.contents[7].contents[1].contents[0]
+    artist = topChartElement.contents[7].contents[3].contents[0][3:]
+    streams = topChartElement.contents[9].contents[0]
+
+    return Song(regionHeading, song, artist, streams)

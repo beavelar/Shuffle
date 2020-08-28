@@ -6,22 +6,21 @@ class Song:
     # title: string
     # streams: string
 
-    def __init__(self, region, title, streams):
+    def __init__(self, region, title, artist, streams):
         self.region = region
         self.title = title
+        self.artist = artist
         self.streams = streams
 
 #########################################################################################################
     # generateReport - Helper function to generate a simple report with simple markdown features
     #
-    # Parameters
-    # titleReportPrefix: string
-    #
     # Returns: string
     
-    def generateReport(self, titleReportPrefix):
-        regionReport = '**' + self.region + '**\n'
-        titleReport = titleReportPrefix + ': ' + self.title + '\n'
-        streamsReport = 'Number of spotify streams: ' + self.streams
+    def generateReport(self):
+        heading = '**' + self.region + '**\n'
+        title = 'Top Song: ' + self.title + '\n'
+        artist = 'Artist: ' + self.artist + '\n'
+        streams = 'Number of Spotify Streams: ' + self.streams
 
-        return regionReport + titleReport + streamsReport
+        return heading + title + artist + streams
