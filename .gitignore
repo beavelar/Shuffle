@@ -1,3 +1,4 @@
 .env
 discord_util/__pycache__
 spotify_util/__pycache__
+tiktometer_util/__pycache__
