@@ -15,8 +15,6 @@ from tiktometer_util.tiktometer_util import *
 #########################################################################################################
 # Global definitions
 
-MOCK_TRIGGER = '!shuffle'
-
 try: 
     helpMenuFile = open('support/help_menu.txt', 'r')
 except Exception as ex:
@@ -37,6 +35,7 @@ except Exception as ex:
 try:
     load_dotenv()
     BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+    MOCK_TRIGGER = os.getenv('DISCORD_BOT_TRIGGER')
 except Exception as ex:
     print('Failed to retrieve DISCORD_BOT_TOKEN environment variable')
     print('Please verify environment variable exists')

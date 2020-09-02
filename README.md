@@ -56,9 +56,9 @@ The following are permission requirements needed by the MoCk BoT
 - Push repository onto Heroku branch
   - Execute **git push heroku master**
   - Heroku will build the app each time a SCM change occurs
-- Add ***DISCORD_BOT_TOKEN*** as an environment variable by adding it as a **Config Var** within the Heroku dashboard or through the Heroku CLI
-  - [Heroku Config Var Setup Guide](https://devcenter.heroku.com/articles/config-vars)
-  - Set the value of the ***DISCORD_BOT_TOKEN*** variable to be the **Shuffle** bot secret token
+- Follow the [Heroku Config Var Setup Guide](https://devcenter.heroku.com/articles/config-vars) to add the following environment variables by adding it as a **Config Var** within the Heroku dashboard or through the Heroku CLI
+  - **DISCORD_BOT_TOKEN**=***Shuffle bot secret token***
+  - **DISCORD_BOT_TRIGGER**=**!shuffle**
 
 ## Heroku Deployment
 - Verify Heroku is setup in you machine
@@ -76,7 +76,7 @@ The following are permission requirements needed by the MoCk BoT
   - [Inviting Your Bot Guide](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot)
   - View [Bot Permission Requirements](#bot-permission-requirements) for the required permissions  
 - After cloning the repository, you should have a **Shuffle** directory, navigate to the **Shuffle** directory and create an empty .env file
-  - This will contain our bot secret token
+  - This will contain our bot's environment variables
 - Retrieve bot secret token
   - In Discord developer page, navigate to "Bot"
   
@@ -84,8 +84,9 @@ The following are permission requirements needed by the MoCk BoT
   - Under "Token", reveal token by clicking on the "Click to Reveal Token" link
 
     ![Token Reveal](/images/token-reveal-snap.PNG)
-- In the .env file, create a **DISCORD_BOT_TOKEN** entry with the value being the Discord bot token
-  - Ex. **DISCORD_BOT_TOKEN=_SECRET TOKEN_**
+- Add the following environment variables in the .env file
+  - **DISCORD_BOT_TOKEN**=***Shuffle bot secret token***
+  - **DISCORD_BOT_TRIGGER**=**!shuffle**
 - Open a command line window of choice
   - Command prompt, GitBash, etc.
 - Navigate to the project base directory
