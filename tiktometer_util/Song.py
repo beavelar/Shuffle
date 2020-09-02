@@ -14,14 +14,14 @@ class Song:
         self.videos = videos
 
 #########################################################################################################
-    # generateReport - Helper function to generate a simple report with simple markdown features
+    # generateTopSongReport - Helper function to generate a simple report with simple markdown features
     #
     # Parameters
     # titleReportPrefix: string
     #
     # Returns: string
     
-    def generateReport(self):
+    def generateTopSongReport(self):
         heading = '**Current Top TikTok Song**\n'
         song = 'Song Title: ' + self.title + '\n'
         artist = 'Artist: ' + self.artist + '\n'

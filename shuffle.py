@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 
+import random
+
 import discord
 from discord_util.discord_imp import *
 
@@ -58,14 +60,23 @@ async def on_message(message):
         elif ('top' in message.content):
             topGlobalSong = getTopSong('global', 'Global')
             topUSSong = getTopSong('us', 'US')
-            report = topGlobalSong.generateReport() + '\n\n' + topUSSong.generateReport()
+            report = topGlobalSong.generateTopSongReport() + '\n\n' + topUSSong.generateTopSongReport()
             
             await sendMessage(client.user, message.channel, report)
         elif ('tiktok' in message.content):
             topTikTokSong = getTopTikTokSong()
-            report = topTikTokSong.generateReport()
+            report = topTikTokSong.generateTopSongReport()
             
             await sendMessage(client.user, message.channel, report)
+        else:
+            randomIndex = random.randint(0, 199)
+
+            songs = getTop200List('regional','us', 'US')
+            songs.append(getTop200List('regional', 'global', 'Global'))
+            songs.append(getTop200List('viral', 'global', 'Global'))
+            songs.append(getTop200List('viral', 'global', 'Global'))
+
+            await sendMessage(client.user, message.channel, songs[randomIndex].generateRandomSongReport())
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up

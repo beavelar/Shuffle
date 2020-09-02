@@ -13,14 +13,30 @@ class Song:
         self.streams = streams
 
 #########################################################################################################
-    # generateReport - Helper function to generate a simple report with simple markdown features
+    # generateTopSongReport - Helper function to generate a simple report with simple markdown features
     #
     # Returns: string
     
-    def generateReport(self):
+    def generateTopSongReport(self):
         heading = '**' + self.region + '**\n'
         title = 'Top Song: ' + self.title + '\n'
         artist = 'Artist: ' + self.artist + '\n'
         streams = 'Number of Spotify Streams: ' + self.streams
 
         return heading + title + artist + streams
+
+#########################################################################################################
+    # generateRandomSongReport - Helper function to generate a simple report with simple markdown features
+    #
+    # Returns: string
+    
+    def generateRandomSongReport(self):
+        heading = '**Random Song**\n'
+        title = 'Song: ' + self.title + '\n'
+        artist = 'Artist: ' + self.artist + '\n'
+
+        if 'N/A' in self.streams:
+            streams = 'Number of Spotify Streams: ' + self.streams
+            return heading + title + artist + streams
+        else:
+            return heading + title + artist

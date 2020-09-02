@@ -6,18 +6,14 @@ Help Menu
 Shuffle bot messages out a random song every day.  To get an immediate response, use the following commands:
 
 Random Song: !shuffle
-Random Song (Genre Specific): !shuffle "genre"
 Top song (US and Global): !shuffle top
 Top TikTok song: !shuffle tiktok
-Top song (Genre Specific): !shuffle top "genre"
 
 
 ------------------------------------------------------------
 Examples
 ------------------------------------------------------------
 Random Song: !shuffle
-Random Song (Genre Specific): !shuffle hip hop
 Top song (US and Global): !shuffle top
 Top TikTok song: !shuffle tiktok
-Top song (Genre Specific): !shuffle top hip hop
 ```
