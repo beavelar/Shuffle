@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import random
 
 import discord
+from discord.ext import tasks
 from discord_util.discord_imp import *
 
 from spotify_util.Song import *
@@ -14,6 +15,8 @@ from tiktometer_util.tiktometer_util import *
 
 #########################################################################################################
 # Global definitions
+
+channels = []
 
 try: 
     helpMenuFile = open('support/help_menu.txt', 'r')
@@ -52,6 +55,9 @@ client = discord.Client()
 
 @client.event
 async def on_message(message):
+    if not message.channel in channels:
+        channels.append(message.channel)
+
     # Message isn't from Shuffle bot and message includes !shuffle trigger
     if (client.user != message.author) and (MOCK_TRIGGER in message.content):
         if ('help' in message.content):
@@ -78,6 +84,30 @@ async def on_message(message):
             await sendMessage(client.user, message.channel, songs[randomIndex].generateRandomSongReport())
 
 #########################################################################################################
+# Discord task loop handler - Executes once daily
+
+@tasks.loop(hours = 5)
+async def dailyRandomSong():
+    if len(channels) != 0:
+        randomIndex = random.randint(0, 199)
+
+        songs = getTop200List('regional','us')
+        songs.append(getTop200List('regional', 'global'))
+        songs.append(getTop200List('viral', 'global'))
+        songs.append(getTop200List('viral', 'global'))
+
+        for channel in channels:
+            await sendMessage(client.user, channel, songs[randomIndex].generateRandomSongReport())
+
+#########################################################################################################
+# dailyRandomSong loop handler - Waits for Discord bot to be in a ready state
+
+@dailyRandomSong.before_loop
+async def before():
+    await client.wait_until_ready()
+    print(f'{client.user} is in a ready state')
+
+#########################################################################################################
 # On_ready handler - Executes after bot starts up
 
 @client.event
@@ -87,4 +117,5 @@ async def on_ready():
 #########################################################################################################
 # Startup command to start the bot
 
+dailyRandomSong.start()
 client.run(BOT_TOKEN)
