@@ -57,8 +57,8 @@ async def on_message(message):
         if ('help' in message.content):
             await sendMessage(client.user, message.channel, HELP_MENU)
         elif ('top' in message.content):
-            topGlobalSong = getTopSong('global', 'Global')
-            topUSSong = getTopSong('us', 'US')
+            topGlobalSong = getTopSong('regional', 'global')
+            topUSSong = getTopSong('regional', 'us')
             report = topGlobalSong.generateTopSongReport() + '\n\n' + topUSSong.generateTopSongReport()
             
             await sendMessage(client.user, message.channel, report)
@@ -70,10 +70,10 @@ async def on_message(message):
         else:
             randomIndex = random.randint(0, 199)
 
-            songs = getTop200List('regional','us', 'US')
-            songs.append(getTop200List('regional', 'global', 'Global'))
-            songs.append(getTop200List('viral', 'global', 'Global'))
-            songs.append(getTop200List('viral', 'global', 'Global'))
+            songs = getTop200List('regional','us')
+            songs.append(getTop200List('regional', 'global'))
+            songs.append(getTop200List('viral', 'global'))
+            songs.append(getTop200List('viral', 'global'))
 
             await sendMessage(client.user, message.channel, songs[randomIndex].generateRandomSongReport())
 

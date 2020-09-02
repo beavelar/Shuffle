@@ -13,8 +13,8 @@ from spotify_util.Song import *
 #
 # Returns: Song Object
 
-def getTopSong(urlExt, region, regionHeading):
-    top200 = getTop200List(region, regionHeading)
+def getTopSong(urlExt, region):
+    top200 = getTop200List(urlExt, region)
 
     return top200[0]
 
@@ -28,10 +28,11 @@ def getTopSong(urlExt, region, regionHeading):
 #
 # Returns: List of Song Objects
 
-def getTop200List(urlExt, region, regionHeading):
+def getTop200List(urlExt, region):
     songs = []
     artists = []
     streams = []
+    regionHeading = 'Unknown'
     
     spotifyChartsUrl = 'https://spotifycharts.com/' + urlExt + '/'
     requestUrl = spotifyChartsUrl + region + '/daily/latest'
@@ -41,6 +42,11 @@ def getTop200List(urlExt, region, regionHeading):
 
     chartElements = responseParsed.findAll('tr')
 
+    if 'us' in region:
+        regionHeading = 'US'
+    elif 'global' in region:
+        regionHeading = 'Global'
+    
     for chartElement in chartElements:
         if len(chartElement.contents) > 8:
             song = chartElement.contents[7].contents[1].contents[0]
