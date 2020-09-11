@@ -1,17 +1,11 @@
 import os
 from dotenv import load_dotenv
 
-import random
+from shuffle_util.shuffle_case import *
 
 import discord
 from discord.ext import tasks
-from discord_util.discord_imp import *
-
-from spotify_util.Song import *
-from spotify_util.spotify_util import *
-
-from tiktometer_util.Song import *
-from tiktometer_util.tiktometer_util import *
+from discord_util.DiscordMsgType import DiscordMsgType
 
 #########################################################################################################
 # Global definitions
@@ -40,7 +34,7 @@ try:
     BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
     MOCK_TRIGGER = os.getenv('DISCORD_BOT_TRIGGER')
 except Exception as ex:
-    print('Failed to retrieve DISCORD_BOT_TOKEN environment variable')
+    print('Failed to retrieving environment variables')
     print('Please verify environment variable exists')
     print('Exiting..')
     exit(1)
@@ -55,49 +49,33 @@ client = discord.Client()
 
 @client.event
 async def on_message(message):
+    # Hacky way of keeping channels persisted within Heroku's tool
     if not message.channel in channels:
         channels.append(message.channel)
 
     # Message isn't from Shuffle bot and message includes !shuffle trigger
     if (client.user != message.author) and (MOCK_TRIGGER in message.content):
-        if ('help' in message.content):
-            await sendMessage(client.user, message.channel, HELP_MENU)
-        elif ('top' in message.content):
-            topGlobalSong = getTopSong('regional', 'global')
-            topUSSong = getTopSong('regional', 'us')
-            report = topGlobalSong.generateTopSongReport() + '\n\n' + topUSSong.generateTopSongReport()
-            
-            await sendMessage(client.user, message.channel, report)
-        elif ('tiktok' in message.content):
-            topTikTokSong = getTopTikTokSong()
-            report = topTikTokSong.generateTopSongReport()
-            
-            await sendMessage(client.user, message.channel, report)
+        if (DiscordMsgType.HELP in message.content):
+            await shuffle_case(DiscordMsgType.HELP, client.user, message.channel, HELP_MENU)
+
+        elif (DiscordMsgType.TOP in message.content):
+            await shuffle_case(DiscordMsgType.TOP, client.user, message.channel, HELP_MENU)        
+        
+        elif (DiscordMsgType.TIKTOK in message.content):
+            await shuffle_case(DiscordMsgType.TIKTOK, client.user, message.channel, HELP_MENU)
+        
         else:
-            randomIndex = random.randint(0, 199)
-
-            songs = getTop200List('regional','us')
-            songs.append(getTop200List('regional', 'global'))
-            songs.append(getTop200List('viral', 'global'))
-            songs.append(getTop200List('viral', 'global'))
-
-            await sendMessage(client.user, message.channel, songs[randomIndex].generateRandomSongReport())
-
+            await shuffle_case(DiscordMsgType.RANDOM, client.user, message.channel, HELP_MENU)
+            
 #########################################################################################################
 # Discord task loop handler - Executes once daily
 
-@tasks.loop(hours = 5)
+@tasks.loop(hours = 24)
 async def dailyRandomSong():
     if len(channels) != 0:
-        randomIndex = random.randint(0, 199)
-
-        songs = getTop200List('regional','us')
-        songs.append(getTop200List('regional', 'global'))
-        songs.append(getTop200List('viral', 'global'))
-        songs.append(getTop200List('viral', 'global'))
 
         for channel in channels:
-            await sendMessage(client.user, channel, songs[randomIndex].generateRandomSongReport())
+            await shuffle_case(DiscordMsgType.RANDOM, client.user, channel, HELP_MENU)
 
 #########################################################################################################
 # dailyRandomSong loop handler - Waits for Discord bot to be in a ready state
