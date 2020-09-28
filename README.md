@@ -11,10 +11,12 @@ The **Shuffle** Bot can be deployed under their free tier of Heroku if desired.
 
 ## Quick Links:
 - [Project Requirements](#project-requirements)
+- [Optional Setup](#optional-setup)
 - [Bot Permission Requirements](#bot-permission-requirements)
+- [Stand-Alone Project Setup](#stand-alone-project-setup)
+- [Docker Setup](#docker-setup)
 - [Heroku Setup](#heroku-setup)
 - [Heroku Deployment](#heroku-deployment)
-- [Stand-Alone Project Setup](#stand-alone-project-setup)
 - [Usage](#usage)
 
 ----------------------------------
@@ -30,8 +32,12 @@ The **Shuffle** Bot can be deployed under their free tier of Heroku if desired.
   - [Requests Installation Guide](https://pypi.org/project/requests/)
 - BeautifulSoup4 Python library
   - [BeautifulSoup4 Installation Guide](https://pypi.org/project/beautifulsoup4/)
+
+## Optional Setup
 - Heroku CLI
   - [Heroku CLI Installation Guide](https://devcenter.heroku.com/articles/heroku-cli)
+- Docker
+  - [Docker Installation Guide](https://docs.docker.com/get-docker/)
 
 ## Bot Permission Requirements
 The following are permission requirements needed by the MoCk BoT
@@ -45,6 +51,42 @@ The following are permission requirements needed by the MoCk BoT
    - Read Message History
    - Mention everyone
    - Use External Emojis
+
+## Stand-Alone Project Setup
+- Clone the repository
+- Create Discord bot account
+  - [Creating a Bot Account Guide](https://discordpy.readthedocs.io/en/latest/discord.html#)
+- Invite Discord bot into your Discord server with proper permissions
+  - [Inviting Your Bot Guide](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot)
+  - View [Bot Permission Requirements](#bot-permission-requirements) for the required permissions  
+- After cloning the repository, you should have a **Shuffle** directory, navigate to the **Shuffle** directory and create an empty .env file
+  - A .env template file is provided for ease of usage
+  - This will contain our bot's environment variables
+- Retrieve bot secret token
+  - In Discord developer page, navigate to "Bot"
+  
+    ![Discord Bot Selection](/images/bot-selection-snap.PNG)
+  - Under "Token", reveal token by clicking on the "Click to Reveal Token" link
+
+    ![Token Reveal](/images/token-reveal-snap.PNG)
+- Add the following environment variables in the .env file
+  - **DISCORD_BOT_TOKEN**=***Shuffle bot secret token***
+  - **DISCORD_BOT_TRIGGER**=**!shuffle**
+- Open a command line window of choice
+  - Command prompt, GitBash, etc.
+- Navigate to the project base directory
+- Execute the following command to spin up the bot:
+  - **python shuffle.py**
+- View Discord server
+  - **Shuffle Bot** should now appear as online and listening to channel messages
+
+## Docker Setup
+- Follow the steps indicated above in [Stand-Alone Project Setup](stand-alone-project-setup) to get the base project setup
+- Navigate to the project base directory
+- Execute the following command to build the Docker image
+  - **docker build -t shuffle .**
+- Execute the following command to run the Docker container
+  - **docker run -it shuffle**
 
 ## Heroku Setup
 - Clone the repository
@@ -67,33 +109,6 @@ The following are permission requirements needed by the MoCk BoT
   - Execute **git push heroku master**
   - Heroku will build the app each time a SCM change occurs
 - Changes pushed onto Heroku branch will not be transferred onto **Shuffle** repository unless pushed onto repository as well
-
-## Stand-Alone Project Setup
-- Clone the repository
-- Create Discord bot account
-  - [Creating a Bot Account Guide](https://discordpy.readthedocs.io/en/latest/discord.html#)
-- Invite Discord bot into your Discord server with proper permissions
-  - [Inviting Your Bot Guide](https://discordpy.readthedocs.io/en/latest/discord.html#inviting-your-bot)
-  - View [Bot Permission Requirements](#bot-permission-requirements) for the required permissions  
-- After cloning the repository, you should have a **Shuffle** directory, navigate to the **Shuffle** directory and create an empty .env file
-  - This will contain our bot's environment variables
-- Retrieve bot secret token
-  - In Discord developer page, navigate to "Bot"
-  
-    ![Discord Bot Selection](/images/bot-selection-snap.PNG)
-  - Under "Token", reveal token by clicking on the "Click to Reveal Token" link
-
-    ![Token Reveal](/images/token-reveal-snap.PNG)
-- Add the following environment variables in the .env file
-  - **DISCORD_BOT_TOKEN**=***Shuffle bot secret token***
-  - **DISCORD_BOT_TRIGGER**=**!shuffle**
-- Open a command line window of choice
-  - Command prompt, GitBash, etc.
-- Navigate to the project base directory
-- Execute the following command to spin up the bot:
-  - **python shuffle.py**
-- View Discord server
-  - **Shuffle Bot** should now appear as online and listening to channel messages
 
 ## Usage
 - To bring up the **Shuffle Bot** help menu
