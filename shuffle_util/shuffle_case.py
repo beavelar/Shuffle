@@ -1,3 +1,4 @@
+import time
 import random as rand
 
 from spotify_util.Song import *
@@ -29,10 +30,21 @@ async def help(user, channel, helpMenu):
 # channel: Channel (Discord API)
 
 async def top(user, channel):
+    start = time.perf_counter()
+
     topGlobalSong = getTopSong('regional', 'global')
     topUSSong = getTopSong('regional', 'us')
     report = topGlobalSong.generateTopSongReport() + '\n\n' + topUSSong.generateTopSongReport()
     
+    stop = time.perf_counter()
+    elapsedTime = stop - start
+
+    print('-----------------------------------------------------------------------------')
+    print(f'Top Song Retrieval Took: {elapsedTime} seconds')
+    print(f'Channel Name: {channel.name}')
+    print(f'User: {user.display_name}')
+    print('-----------------------------------------------------------------------------\n')
+
     await sendMessage(user, channel, report)
 
 #########################################################################################################
@@ -43,9 +55,20 @@ async def top(user, channel):
 # channel: Channel (Discord API)
 
 async def tiktok(user, channel):
+    start = time.perf_counter()
+
     topTikTokSong = getTopTikTokSong()
     report = topTikTokSong.generateTopSongReport()
     
+    stop = time.perf_counter()
+    elapsedTime = stop - start
+
+    print('-----------------------------------------------------------------------------')
+    print(f'Top Song Retrieval Took: {elapsedTime} seconds')
+    print(f'Channel Name: {channel.name}')
+    print(f'User: {user.display_name}')
+    print('-----------------------------------------------------------------------------\n')
+
     await sendMessage(user, channel, report)
 
 #########################################################################################################
@@ -56,12 +79,23 @@ async def tiktok(user, channel):
 # channel: Channel (Discord API)
 
 async def random(user, channel):
+    start = time.perf_counter()
+
     songs = getTop200List('regional','us')
     songs.extend(getTop200List('regional', 'global'))
     songs.extend(getTop200List('viral', 'global'))
     songs.extend(getTop200List('viral', 'global'))
 
     randomIndex = rand.randint(0, len(songs))
+
+    stop = time.perf_counter()
+    elapsedTime = stop - start
+
+    print('-----------------------------------------------------------------------------')
+    print(f'Top Song Retrieval Took: {elapsedTime} seconds')
+    print(f'Channel Name: {channel.name}')
+    print(f'User: {user.display_name}')
+    print('-----------------------------------------------------------------------------\n')
 
     await sendMessage(user, channel, songs[randomIndex].generateRandomSongReport())
 
