@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from shuffle_util.shuffle_case import *
 
 import discord
-from discord.ext import tasks
+from discord.ext import tasks, commands
 from discord_util.DiscordMsgType import DiscordMsgType
 
 #########################################################################################################
@@ -39,33 +39,33 @@ except Exception as ex:
     print('Exiting..')
     exit(1)
 
-client = discord.Client()
+bot = commands.Bot(command_prefix='!')
+bot.remove_command('help')
 
 #########################################################################################################
-# On_message handler - Discord function that executes after message is detected from Discord server
+# 'shuffle' command handler - Discord function that executes after shuffle command is received
 #
 # Parameters
 # message: Message (Discord API)
 
-@client.event
-async def on_message(message):
+@bot.command(name='shuffle')
+async def random(message, *args):
+    # TODO: Fix channel persistency
     # Hacky way of keeping channels persisted within Heroku's tool
     if not message.channel in channels:
         channels.append(message.channel)
 
-    # Message isn't from Shuffle bot and message includes !shuffle trigger
-    if (client.user != message.author) and (BOT_TRIGGER in message.content):
-        if (DiscordMsgType.HELP in message.content):
-            await shuffle_case(DiscordMsgType.HELP, client.user, message.channel, HELP_MENU)
+    if (len(args) == 0):
+        await shuffle_case(DiscordMsgType.RANDOM, bot.user, message.channel, HELP_MENU)
 
-        elif (DiscordMsgType.TOP in message.content):
-            await shuffle_case(DiscordMsgType.TOP, client.user, message.channel, HELP_MENU)        
-        
-        elif (DiscordMsgType.TIKTOK in message.content):
-            await shuffle_case(DiscordMsgType.TIKTOK, client.user, message.channel, HELP_MENU)
-        
-        else:
-            await shuffle_case(DiscordMsgType.RANDOM, client.user, message.channel, HELP_MENU)
+    if (DiscordMsgType.TOP in args):
+        await shuffle_case(DiscordMsgType.TOP, bot.user, message.channel, HELP_MENU)
+    
+    if (DiscordMsgType.TIKTOK in args):
+        await shuffle_case(DiscordMsgType.TIKTOK, bot.user, message.channel, HELP_MENU)
+
+    if (DiscordMsgType.HELP in args):
+        await shuffle_case(DiscordMsgType.HELP, bot.user, message.channel, HELP_MENU)
             
 #########################################################################################################
 # Discord task loop handler - Executes once daily
@@ -75,25 +75,25 @@ async def dailyRandomSong():
     if len(channels) != 0:
 
         for channel in channels:
-            await shuffle_case(DiscordMsgType.RANDOM, client.user, channel, HELP_MENU)
+            await shuffle_case(DiscordMsgType.RANDOM, bot.user, channel, HELP_MENU)
 
 #########################################################################################################
 # dailyRandomSong loop handler - Waits for Discord bot to be in a ready state
 
 @dailyRandomSong.before_loop
 async def before():
-    await client.wait_until_ready()
-    print(f'{client.user} is in a ready state')
+    await bot.wait_until_ready()
+    print(f'{bot.user} is in a ready state')
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f'{client.user} has connected')
+    print(f'{bot.user} has connected')
 
 #########################################################################################################
 # Startup command to start the bot
 
 dailyRandomSong.start()
-client.run(BOT_TOKEN)
+bot.run(BOT_TOKEN)
