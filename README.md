@@ -40,7 +40,7 @@ The **Shuffle** Bot can be deployed under their free tier of Heroku if desired.
   - [Docker Installation Guide](https://docs.docker.com/get-docker/)
 
 ## Bot Permission Requirements
-The following are permission requirements needed by the MoCk BoT
+The following are permission requirements needed by the Shuffle bot
  - **General Permissions**
    - View Channels
  - **Text Permissions**

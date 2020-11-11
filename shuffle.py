@@ -32,7 +32,7 @@ except Exception as ex:
 try:
     load_dotenv()
     BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
-    MOCK_TRIGGER = os.getenv('DISCORD_BOT_TRIGGER')
+    BOT_TRIGGER = os.getenv('DISCORD_BOT_TRIGGER')
 except Exception as ex:
     print('Failed to retrieving environment variables')
     print('Please verify environment variable exists')
@@ -54,7 +54,7 @@ async def on_message(message):
         channels.append(message.channel)
 
     # Message isn't from Shuffle bot and message includes !shuffle trigger
-    if (client.user != message.author) and (MOCK_TRIGGER in message.content):
+    if (client.user != message.author) and (BOT_TRIGGER in message.content):
         if (DiscordMsgType.HELP in message.content):
             await shuffle_case(DiscordMsgType.HELP, client.user, message.channel, HELP_MENU)
 
