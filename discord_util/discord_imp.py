@@ -21,9 +21,9 @@ async def fetchMessage(bot, channel, url):
 
     print('-----------------------------------------------------------------------------')
     print('Fetching Message')
-    print('Channel Name: ' + channel.name)
-    print('\nMessage URL: ' + url)
-    print('\nMessage ID: ' + str(messageId))
+    print(f'Channel Name: {channel.name}')
+    print(f'\nMessage URL: {url}')
+    print(f'\nMessage ID: {str(messageId)}')
     print('-----------------------------------------------------------------------------\n')
 
     try:
@@ -31,32 +31,32 @@ async def fetchMessage(bot, channel, url):
         
         print('-----------------------------------------------------------------------------')
         print('Message Fetched')
-        print('Author: ' + fetchedMessage.author.display_name)
-        print('\nMessage:\n' + fetchedMessage.content)
+        print(f'Author: {fetchedMessage.author.display_name}')
+        print(f'\nMessage:\n{fetchedMessage.content}')
         print('-----------------------------------------------------------------------------\n')
     except NotFound as ex:
         print('-----------------------------------------------------------------------------')
         print('NotFound exception caught in fetchMessage')
         print('The specified message was not found')
-        print('Channel Name: ' + channel.name)
-        print('\nMessage URL: ' + url)
-        print('\nMessage ID: ' + str(messageId))
+        print(f'Channel Name: {channel.name}')
+        print(f'\nMessage URL: {url}')
+        print(f'\nMessage ID: {str(messageId)}')
         print('-----------------------------------------------------------------------------\n')
     except Forbidden as ex:
         print('-----------------------------------------------------------------------------')
         print('Forbidden exception caught in fetchMessage')
-        print(bot.display_name + ' does not have the correct permissions to retrieve the message')
-        print('Channel Name: ' + channel.name)
-        print('\nMessage URL: ' + url)
-        print('\nMessage ID: ' + str(messageId))
+        print(f'{bot.display_name} does not have the correct permissions to retrieve the message')
+        print(f'Channel Name: {channel.name}')
+        print(f'\nMessage URL: {url}')
+        print(f'\nMessage ID: {str(messageId)}')
         print('-----------------------------------------------------------------------------\n')
     except HTTPException as ex:
         print('-----------------------------------------------------------------------------')
         print('HTTPException exception caught in fetchMessage')
         print('Discord fetch_message function failed to retrieve message')
-        print('Channel Name: ' + channel.name)
-        print('\nMessage URL: ' + url)
-        print('\nMessage ID: ' + str(messageId))
+        print(f'Channel Name: {channel.name}')
+        print(f'\nMessage URL: {url}')
+        print(f'\nMessage ID: {str(messageId)}')
         print('-----------------------------------------------------------------------------\n')
 
     return fetchedMessage
@@ -76,8 +76,8 @@ async def getMessageHistory(bot, channel, msgLimit):
 
     print('-----------------------------------------------------------------------------')
     print('Retrieving Message History')
-    print('Channel Name: ' + channel.name)
-    print('\nMessage History Limit: ' + str(msgLimit))
+    print(f'Channel Name: {channel.name}')
+    print(f'\nMessage History Limit: {str(msgLimit)}')
     print('-----------------------------------------------------------------------------\n')
     
     try:
@@ -85,14 +85,14 @@ async def getMessageHistory(bot, channel, msgLimit):
     except Forbidden as ex:
         print('-----------------------------------------------------------------------------')
         print('Forbidden exception caught in getMessageHistory')
-        print(bot.display_name + ' does not have the correct permissions to retrieve the message')
-        print('Channel Name: ' + channel.name)
+        print(f'{bot.display_name} does not have the correct permissions to retrieve the message')
+        print(f'Channel Name: {channel.name}')
         print('-----------------------------------------------------------------------------\n')
     except HTTPException as ex:
         print('-----------------------------------------------------------------------------')
         print('HTTPException exception caught in getMessageHistory')
         print('Discord history function failed to retrieve message history')
-        print('Channel Name: ' + channel.name)
+        print(f'Channel Name: {channel.name}')
         print('-----------------------------------------------------------------------------\n')
 
     return messageHistory
@@ -108,8 +108,8 @@ async def getMessageHistory(bot, channel, msgLimit):
 async def sendMessage(bot, channel, message):
     print('-----------------------------------------------------------------------------')
     print('Sending Message')
-    print('Channel Name: ' + channel.name)
-    print('\nMessage:\n' + message)
+    print(f'Channel Name: {channel.name}')
+    print(f'\nMessage:\n{message}')
     print('-----------------------------------------------------------------------------\n')
     
     try:
@@ -118,15 +118,15 @@ async def sendMessage(bot, channel, message):
         print('-----------------------------------------------------------------------------')
         print('HTTPException exception caught in sendMessage')
         print('Discord send function failed to send message')
-        print('Channel Name: ' + channel.name)
-        print('\nMessage:\n' + message)
+        print(f'Channel Name: {channel.name}')
+        print(f'\nMessage:\n{message}')
         print('-----------------------------------------------------------------------------\n')
     except Forbidden as ex:
         print('-----------------------------------------------------------------------------')
         print('Forbidden exception caught in sendMessage')
-        print(bot.display_name + ' does not have the correct permissions to retrieve the message')
-        print('Channel Name: ' + channel.name)
-        print('\nMessage:\n' + message)
+        print(f'{bot.display_name} does not have the correct permissions to retrieve the message')
+        print(f'Channel Name: {channel.name}')
+        print(f'\nMessage:\n{message}')
         print('-----------------------------------------------------------------------------\n')
 
 #########################################################################################################
@@ -138,8 +138,8 @@ async def sendMessage(bot, channel, message):
 async def deleteMessage(message):
     print('-----------------------------------------------------------------------------')
     print('Deleting Message')
-    print('Author: ' + message.author.display_name)
-    print('\nMessage:\n' + message.clean_content)
+    print(f'Author: {message.author.display_name}')
+    print(f'\nMessage:\n{message.clean_content}')
     print('-----------------------------------------------------------------------------\n')
 
     try:
@@ -148,6 +148,6 @@ async def deleteMessage(message):
         print('-----------------------------------------------------------------------------')
         print('HTTPException exception caught in deleteMessage')
         print('Discord delete function failed to delete desired message')
-        print('Author: ' + message.author.display_name)
-        print('\nMessage:\n' + message.clean_content)
+        print(f'Author: {message.author.display_name}')
+        print(f'\nMessage:\n{message.clean_content}')
         print('-----------------------------------------------------------------------------\n')
