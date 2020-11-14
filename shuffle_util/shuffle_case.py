@@ -1,6 +1,9 @@
 import time
 import random as rand
 
+from shuffle_util.thread import *
+from shuffle_util.request import *
+
 from spotify_util.Song import *
 from spotify_util.spotify_util import *
 
@@ -81,12 +84,22 @@ async def tiktok(user, channel):
 async def random(user, channel):
     start = time.perf_counter()
 
-    songs = getTop200List('regional','us')
-    songs.extend(getTop200List('regional', 'global'))
-    songs.extend(getTop200List('viral', 'global'))
-    songs.extend(getTop200List('viral', 'global'))
+    songs = []
+    threads = []
+    requestList = [Request('regional', 'us'), Request('regional', 'global'), Request('viral', 'us'), Request('viral', 'global')]
+    threadList = ['RandomThread-1', 'RandomThread-2', 'RandomThread-3', 'RandomThread-4']
+
+    for index in range(4):
+        thread = Thread(threadList[index], requestList[index].getChart(), requestList[index].getRegion(), songs)
+        thread.start()
+        threads.append(thread)
+
+    for thread in threads:
+        # Waits for thread to complete
+        thread.join()
 
     randomIndex = rand.randint(0, len(songs))
+    randomSong = rand.randint(0, len(songs[randomIndex]))
 
     stop = time.perf_counter()
     elapsedTime = stop - start
@@ -97,7 +110,7 @@ async def random(user, channel):
     print(f'User: {user.display_name}')
     print('-----------------------------------------------------------------------------\n')
 
-    await sendMessage(user, channel, songs[randomIndex].generateRandomSongReport())
+    await sendMessage(user, channel, songs[randomIndex][randomSong].generateRandomSongReport())
 
 #########################################################################################################
 # Determines which case to execute (Basic switch/case implementation)
