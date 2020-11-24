@@ -43,18 +43,13 @@ bot = commands.Bot(command_prefix='!')
 bot.remove_command('help')
 
 #########################################################################################################
-# 'shuffle' command handler - Discord function that executes after shuffle command is received
+# Bot trigger command handler - Discord function that executes after bot command is received
 #
 # Parameters
 # message: Message (Discord API)
 
-@bot.command(name='shuffle')
+@bot.command(name=BOT_TRIGGER)
 async def random(message, *args):
-    # TODO: Fix channel persistency
-    # Hacky way of keeping channels persisted within Heroku's tool
-    if not message.channel in channels:
-        channels.append(message.channel)
-
     if (len(args) == 0):
         await shuffle_case(DiscordMsgType.RANDOM, bot.user, message.channel, HELP_MENU)
 
@@ -90,6 +85,7 @@ async def before():
 
 @bot.event
 async def on_ready():
+    channels = await createChannels(bot.guilds, 'Bots', 'shuffle')
     print(f'{bot.user} has connected')
 
 #########################################################################################################

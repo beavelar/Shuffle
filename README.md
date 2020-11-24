@@ -71,7 +71,7 @@ The following are permission requirements needed by the Shuffle bot
     ![Token Reveal](/images/token-reveal-snap.PNG)
 - Add the following environment variables in the .env file
   - **DISCORD_BOT_TOKEN**=***Shuffle bot secret token***
-  - **DISCORD_BOT_TRIGGER**=**!shuffle**
+  - **DISCORD_BOT_TRIGGER**=**shuffle**
 - Open a command line window of choice
   - Command prompt, GitBash, etc.
 - Navigate to the project base directory
@@ -100,7 +100,7 @@ The following are permission requirements needed by the Shuffle bot
   - Heroku will build the app each time a SCM change occurs
 - Follow the [Heroku Config Var Setup Guide](https://devcenter.heroku.com/articles/config-vars) to add the following environment variables by adding it as a **Config Var** within the Heroku dashboard or through the Heroku CLI
   - **DISCORD_BOT_TOKEN**=***Shuffle bot secret token***
-  - **DISCORD_BOT_TRIGGER**=**!shuffle**
+  - **DISCORD_BOT_TRIGGER**=**shuffle**
 
 ## Heroku Deployment
 - Verify Heroku is setup in you machine

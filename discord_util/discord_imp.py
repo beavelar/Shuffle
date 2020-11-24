@@ -1,6 +1,7 @@
 from discord import NotFound
 from discord import Forbidden
 from discord import HTTPException
+from discord import PermissionOverwrite
 
 #########################################################################################################
 # Retrieves specific message provided the Discord message URL
@@ -151,3 +152,117 @@ async def deleteMessage(message):
         print(f'Author: {message.author.display_name}')
         print(f'\nMessage:\n{message.clean_content}')
         print('-----------------------------------------------------------------------------\n')
+
+#########################################################################################################
+# Creates channel in all guilds if channel doesn't exist. Channel is created with desired category name
+# and desired channel name
+#
+# Parameters
+# guilds: List of Guild (Discord API)
+# categoryName: String
+# channelName: String
+#
+# Returns: List of Channel (Discord API)
+
+async def createChannels(guilds, categoryName, channelName):
+    channels = []
+
+    for guild in guilds:
+        try:
+            category = await createCategory(guild, categoryName)
+            channel = findChannel(category, channelName)
+
+            overwrites = {
+                guild.default_role: PermissionOverwrite(manage_messages=False, send_messages=False)
+            }
+
+            if channel == None:
+                print('-----------------------------------------------------------------------------')
+                print(f'Creating {channelName} channel')
+                print(f'Guild: {guild.name}')
+                print(f'Category: {category.name}')
+                print('-----------------------------------------------------------------------------\n')
+
+                await guild.create_text_channel(channelName, category=category, overwrites=overwrites)
+
+                print('-----------------------------------------------------------------------------')
+                print(f'Successfully created {channelName} channel')
+                print(f'Guild: {guild.name}')
+                print(f'Category: {category.name}')
+                print('-----------------------------------------------------------------------------\n')
+            else:
+                channels.append(channel)
+        except Forbidden:
+            print('-----------------------------------------------------------------------------')
+            print('Forbidden exception caught in createChannel')
+            print('Discord create text channel function failed to create desired channel')
+            print(f'Guild: {guild.name}')
+            print('-----------------------------------------------------------------------------\n')
+        except:
+            print('-----------------------------------------------------------------------------')
+            print('Unknown exception caught in createChannel')
+            print('Discord create text channel function failed to create desired channel')
+            print(f'Guild: {guild.name}')
+            print('-----------------------------------------------------------------------------\n')
+
+    return channels
+
+
+#########################################################################################################
+# Creates desired channel category if it doesn't already exist in the guild
+#
+# Parameters
+# guild: Guild (Discord API)
+# name: String
+#
+# Returns: Category (Discord API)
+
+async def createCategory(guild, name):
+    for category in guild.categories:
+        if category.name == name:
+            return category
+
+    try:
+        print('-----------------------------------------------------------------------------')
+        print(f'Creating {name} channel category')
+        print(f'Guild: {guild.name}')
+        print('-----------------------------------------------------------------------------\n')
+
+        return await guild.create_category(name)
+
+        print('-----------------------------------------------------------------------------')
+        print(f'Successfully created {name} channel category')
+        print(f'Guild: {guild.name}')
+        print('-----------------------------------------------------------------------------\n')
+    except Forbidden as ex:
+        print('-----------------------------------------------------------------------------')
+        print('Forbidden exception caught in createCategory')
+        print('Discord create category function failed to create desired category')
+        print(f'Guild: {guild.name}')
+        print('-----------------------------------------------------------------------------\n')
+
+        raise ex
+    except Exception as ex:
+        print('-----------------------------------------------------------------------------')
+        print('Unknown exception caught in createCategory')
+        print('Discord create category function failed to create desired category')
+        print(f'Guild: {guild.name}')
+        print('-----------------------------------------------------------------------------\n')
+
+        raise ex
+
+#########################################################################################################
+# Searches if desired channel name exists
+#
+# Parameters
+# category: Category (Discord API)
+# name: String
+#
+# Returns: None or Channel (Discord API)
+
+def findChannel(category, name):
+    for channel in category.channels:
+        if channel.name == name:
+            return channel
+
+    return None
