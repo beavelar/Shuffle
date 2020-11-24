@@ -9,6 +9,9 @@ The **Shuffle** bot can be setup and deployed onto a stand alone system or onto 
 
 The **Shuffle** Bot can be deployed under their free tier of Heroku if desired.
 
+Use the invitation link to invite the Shuffle bot into your server
+  - [Shuffle Bot Invitation Link](https://discord.com/api/oauth2/authorize?client_id=745448751287631996&permissions=268954640&scope=bot)
+
 ## Quick Links:
 - [Project Requirements](#project-requirements)
 - [Optional Setup](#optional-setup)
@@ -42,8 +45,8 @@ The **Shuffle** Bot can be deployed under their free tier of Heroku if desired.
 ## Bot Permission Requirements
 The following are permission requirements needed by the Shuffle bot
  - **General Permissions**
-   - Manage Channels
    - Manage Roles
+   - Manage Channels
    - View Channels
  - **Text Permissions**
    - Send Messages
