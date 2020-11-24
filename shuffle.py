@@ -89,6 +89,29 @@ async def on_ready():
     print(f'{bot.user} has connected')
 
 #########################################################################################################
+# On_error handler - Executes after unhandled errors pop up
+
+@bot.event
+async def on_error(event, *args, **kwargs):
+    message = args[0]
+
+    print('-----------------------------------------------------------------------------')
+    print('Unhandled error occurred in on_error')
+    print(f'Error: {message}')
+    print('-----------------------------------------------------------------------------')
+
+#########################################################################################################
+# On_command_error handler - Executes after unhandled errors pop up
+
+@bot.event
+async def on_command_error(ctx, error):
+    if not isinstance(error, commands.errors.CommandNotFound):
+        print('-----------------------------------------------------------------------------')
+        print('Unhandled error occurred in on_command_error')
+        print(str(error))
+        print('-----------------------------------------------------------------------------')
+
+#########################################################################################################
 # Startup command to start the bot
 
 dailyRandomSong.start()
