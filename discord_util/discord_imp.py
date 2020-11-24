@@ -164,7 +164,7 @@ async def deleteMessage(message):
 #
 # Returns: List of Channel (Discord API)
 
-async def createChannels(guilds, bot, categoryName, channelName):
+async def createChannels(guilds, bot, categoryName, channelName, welcomeMessage):
     channels = []
 
     for guild in guilds:
@@ -173,25 +173,14 @@ async def createChannels(guilds, bot, categoryName, channelName):
             channel = findChannel(category, channelName)
 
             if channel == None:
-                print('-----------------------------------------------------------------------------')
-                print(f'Creating {channelName} channel')
-                print(f'Guild: {guild.name}')
-                print(f'Category: {category.name}')
-                print('-----------------------------------------------------------------------------\n')
-
-                channel = await guild.create_text_channel(channelName, category=category)
-
-                print('-----------------------------------------------------------------------------')
-                print(f'Successfully created {channelName} channel')
-                print(f'Guild: {guild.name}')
-                print(f'Category: {category.name}')
-                print('-----------------------------------------------------------------------------\n')
+                channel = await createChannel(guild, category, channelName)
+                await sendMessage(bot, channel, welcomeMessage)
 
             await channel.set_permissions(guild.default_role, manage_messages=False, send_messages=False)
             await channel.set_permissions(bot, manage_messages=True, send_messages=True)
         except Forbidden:
             print('-----------------------------------------------------------------------------')
-            print('Forbidden exception caught in createChannel')
+            print('Forbidden exception caught in createChannels')
             print('Discord create text channel function failed to create desired channel')
             print(f'Guild: {guild.name}')
             print('-----------------------------------------------------------------------------\n')
@@ -243,6 +232,33 @@ async def createCategory(guild, name):
         print('-----------------------------------------------------------------------------\n')
 
         raise ex
+
+#########################################################################################################
+# Creates desired channel in the desired guild and category
+#
+# Parameters
+# guild: Guild (Discord API)
+# category: Category (Discord API)
+# name: String
+#
+# Returns: Channel (Discord API)
+
+async def createChannel(guild, category, name):
+    print('-----------------------------------------------------------------------------')
+    print(f'Creating {name} channel')
+    print(f'Guild: {guild.name}')
+    print(f'Category: {category.name}')
+    print('-----------------------------------------------------------------------------\n')
+
+    return await guild.create_text_channel(name, category=category)
+
+    print('-----------------------------------------------------------------------------')
+    print(f'Successfully created {name} channel')
+    print(f'Guild: {guild.name}')
+    print(f'Category: {category.name}')
+    print('-----------------------------------------------------------------------------\n')
+    
+
 
 #########################################################################################################
 # Searches if desired channel name exists

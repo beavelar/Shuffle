@@ -12,6 +12,7 @@ from discord_util.DiscordMsgType import DiscordMsgType
 
 try: 
     helpMenuFile = open('support/help_menu.txt', 'r')
+    welcomeFile = open('support/welcome_message.txt', 'r')
 except Exception as ex:
     print('Exception caught attempting to open support files')
     print('Please verify support files exist and are in the correct location')
@@ -21,6 +22,7 @@ except Exception as ex:
 
 try:
     HELP_MENU = helpMenuFile.read()
+    WELCOME_MESSAGE = welcomeFile.read()
 except Exception as ex:
     print('Exception caught attempting to read support files')
     print('Exiting..')
@@ -83,7 +85,7 @@ async def before():
 
 @bot.event
 async def on_ready():
-    await createChannels(bot.guilds, bot.user, 'Bots', 'shuffle')
+    await createChannels(bot.guilds, bot.user, 'Bots', 'shuffle', WELCOME_MESSAGE)
     print(f'{bot.user} has connected')
 
 #########################################################################################################
