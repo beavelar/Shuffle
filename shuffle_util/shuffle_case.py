@@ -23,7 +23,7 @@ from discord_util.DiscordMsgType import DiscordMsgType
 # helpMenu: string
 
 async def help(user, channel, helpMenu):
-    await sendMessage(user, channel, helpMenu)
+    await sendMessage(user, channel, helpMenu, False)
 
 #########################################################################################################
 # Displays the current top regional song (Global/US) onto the desired Discord channel
@@ -48,7 +48,7 @@ async def top(user, channel):
     print(f'User: {user.display_name}')
     print('-----------------------------------------------------------------------------\n')
 
-    await sendMessage(user, channel, report)
+    await sendMessage(user, channel, report, False)
 
 #########################################################################################################
 # Displays the current top TikTok song onto the desired Discord channel
@@ -72,7 +72,7 @@ async def tiktok(user, channel):
     print(f'User: {user.display_name}')
     print('-----------------------------------------------------------------------------\n')
 
-    await sendMessage(user, channel, report)
+    await sendMessage(user, channel, report, False)
 
 #########################################################################################################
 # Displays a random song (compiled from top songs) onto the desired Discord channel
@@ -110,7 +110,7 @@ async def random(user, channel):
     print(f'User: {user.display_name}')
     print('-----------------------------------------------------------------------------\n')
 
-    await sendMessage(user, channel, songs[randomIndex][randomSong].generateRandomSongReport())
+    await sendMessage(user, channel, songs[randomIndex][randomSong].generateRandomSongReport(), False)
 
 #########################################################################################################
 # Determines which case to execute (Basic switch/case implementation)

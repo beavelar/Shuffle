@@ -99,14 +99,15 @@ async def getMessageHistory(bot, channel, msgLimit):
     return messageHistory
 
 #########################################################################################################
-# Send message out to desired channel
+# Send message out to desired channel.  Pins message if opted for
 #
 # Parameters
 # bot: User (Discord API)
 # channel: Channel (Discord API)
 # message: string
+# pin: boolean
 
-async def sendMessage(bot, channel, message):
+async def sendMessage(bot, channel, message, pin):
     print('-----------------------------------------------------------------------------')
     print('Sending Message')
     print(f'Channel Name: {channel.name}')
@@ -114,7 +115,15 @@ async def sendMessage(bot, channel, message):
     print('-----------------------------------------------------------------------------\n')
     
     try:
-        await channel.send(message)
+        async_message = await channel.send(message)
+
+        if pin:
+            print('-----------------------------------------------------------------------------')
+            print('Pinning Message')
+            print(f'Channel Name: {channel.name}')
+            print(f'\nMessage:\n{message}')
+            print('-----------------------------------------------------------------------------\n')
+            await async_message.pin()
     except HTTPException as ex:
         print('-----------------------------------------------------------------------------')
         print('HTTPException exception caught in sendMessage')
@@ -174,7 +183,7 @@ async def createChannels(guilds, bot, categoryName, channelName, welcomeMessage)
 
             if channel == None:
                 channel = await createChannel(guild, category, channelName)
-                await sendMessage(bot, channel, welcomeMessage)
+                await sendMessage(bot, channel, welcomeMessage, True)
 
             await channel.set_permissions(guild.default_role, manage_messages=False, send_messages=False)
             await channel.set_permissions(bot, manage_messages=True, send_messages=True)
