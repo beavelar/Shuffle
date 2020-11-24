@@ -10,8 +10,6 @@ from discord_util.DiscordMsgType import DiscordMsgType
 #########################################################################################################
 # Global definitions
 
-channels = []
-
 try: 
     helpMenuFile = open('support/help_menu.txt', 'r')
 except Exception as ex:
@@ -67,10 +65,10 @@ async def random(message, *args):
 
 @tasks.loop(hours = 24)
 async def dailyRandomSong():
-    if len(channels) != 0:
-
-        for channel in channels:
-            await shuffle_case(DiscordMsgType.RANDOM, bot.user, channel, HELP_MENU)
+    for guild in bot.guilds:
+        for channel in guild.channels:
+            if channel.category != None and channel.category.name == 'Bots' and channel.name == 'shuffle':
+                await shuffle_case(DiscordMsgType.RANDOM, bot.user, channel, HELP_MENU)
 
 #########################################################################################################
 # dailyRandomSong loop handler - Waits for Discord bot to be in a ready state
@@ -85,7 +83,7 @@ async def before():
 
 @bot.event
 async def on_ready():
-    channels = await createChannels(bot.guilds, 'Bots', 'shuffle')
+    await createChannels(bot.guilds, 'Bots', 'shuffle')
     print(f'{bot.user} has connected')
 
 #########################################################################################################
