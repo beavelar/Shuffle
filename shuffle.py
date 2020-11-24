@@ -83,7 +83,7 @@ async def before():
 
 @bot.event
 async def on_ready():
-    await createChannels(bot.guilds, 'Bots', 'shuffle')
+    await createChannels(bot.guilds, bot.user, 'Bots', 'shuffle')
     print(f'{bot.user} has connected')
 
 #########################################################################################################

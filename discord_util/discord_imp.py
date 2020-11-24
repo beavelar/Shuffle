@@ -164,17 +164,13 @@ async def deleteMessage(message):
 #
 # Returns: List of Channel (Discord API)
 
-async def createChannels(guilds, categoryName, channelName):
+async def createChannels(guilds, bot, categoryName, channelName):
     channels = []
 
     for guild in guilds:
         try:
             category = await createCategory(guild, categoryName)
             channel = findChannel(category, channelName)
-
-            overwrites = {
-                guild.default_role: PermissionOverwrite(manage_messages=False, send_messages=False)
-            }
 
             if channel == None:
                 print('-----------------------------------------------------------------------------')
@@ -183,27 +179,24 @@ async def createChannels(guilds, categoryName, channelName):
                 print(f'Category: {category.name}')
                 print('-----------------------------------------------------------------------------\n')
 
-                await guild.create_text_channel(channelName, category=category, overwrites=overwrites)
+                channel = await guild.create_text_channel(channelName, category=category)
 
                 print('-----------------------------------------------------------------------------')
                 print(f'Successfully created {channelName} channel')
                 print(f'Guild: {guild.name}')
                 print(f'Category: {category.name}')
                 print('-----------------------------------------------------------------------------\n')
-            else:
-                channels.append(channel)
+
+            await channel.set_permissions(guild.default_role, manage_messages=False, send_messages=False)
+            await channel.set_permissions(bot, manage_messages=True, send_messages=True)
         except Forbidden:
             print('-----------------------------------------------------------------------------')
             print('Forbidden exception caught in createChannel')
             print('Discord create text channel function failed to create desired channel')
             print(f'Guild: {guild.name}')
             print('-----------------------------------------------------------------------------\n')
-        except:
-            print('-----------------------------------------------------------------------------')
-            print('Unknown exception caught in createChannel')
-            print('Discord create text channel function failed to create desired channel')
-            print(f'Guild: {guild.name}')
-            print('-----------------------------------------------------------------------------\n')
+        
+        channels.append(channel)
 
     return channels
 
