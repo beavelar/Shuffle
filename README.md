@@ -42,6 +42,7 @@ The **Shuffle** Bot can be deployed under their free tier of Heroku if desired.
 ## Bot Permission Requirements
 The following are permission requirements needed by the Shuffle bot
  - **General Permissions**
+   - Manage Channels
    - View Channels
  - **Text Permissions**
    - Send Messages
