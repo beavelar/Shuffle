@@ -98,8 +98,8 @@ async def random(user, channel):
         # Waits for thread to complete
         thread.join()
 
-    randomIndex = rand.randint(0, len(songs))
-    randomSong = rand.randint(0, len(songs[randomIndex]))
+    randomIndex = rand.randint(0, len(songs) - 1)
+    randomSong = rand.randint(0, len(songs[randomIndex]) - 1)
 
     stop = time.perf_counter()
     elapsedTime = stop - start
