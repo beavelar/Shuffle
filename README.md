@@ -89,12 +89,13 @@ The following are permission requirements needed by the Shuffle bot
   - **Shuffle Bot** should now appear as online and listening to channel messages
 
 ## Docker Setup
-- Follow the steps indicated above in [Stand-Alone Project Setup](stand-alone-project-setup) to get the base project setup
+- Follow the steps indicated above in [Stand-Alone Project Setup](#stand-alone-project-setup) to get the base project setup
 - Navigate to the project base directory
 - Execute the following command to build the Docker image
   - **docker build -t shuffle .**
 - Execute the following command to run the Docker container
-  - **docker run -it shuffle**
+  - Interactive process: **docker run -it shuffle**
+  - Detached from the process: **docker run -d --rm shuffle**
 
 ## Heroku Setup
 - Clone the repository
