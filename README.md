@@ -36,6 +36,9 @@ Use the invitation link to invite the Shuffle bot into your server
 - BeautifulSoup4 Python library
   - [BeautifulSoup4 Installation Guide](https://pypi.org/project/beautifulsoup4/)
 
+To install the required libraries using the requirements.txt file, execute the following command:
+- ***pip install -r requirements.txt***
+
 ## Optional Setup
 - Heroku CLI
   - [Heroku CLI Installation Guide](https://devcenter.heroku.com/articles/heroku-cli)
