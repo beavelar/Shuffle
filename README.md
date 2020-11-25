@@ -5,10 +5,6 @@ The goal of the bot is to provide top and random songs at the ease of the user.
 
 Uses [SpotifyCharts](https://spotifycharts.com/regional) and [TikTometer](https://tiktometer.com/) for the retrieval of the current top songs.
 
-The **Shuffle** bot can be setup and deployed onto a stand alone system or onto Heroku if desired.
-
-The **Shuffle** Bot can be deployed under their free tier of Heroku if desired.
-
 Use the invitation link to invite the Shuffle bot into your server
   - [Shuffle Bot Invitation Link](https://discord.com/api/oauth2/authorize?client_id=745448751287631996&permissions=268954640&scope=bot)
 
@@ -18,8 +14,6 @@ Use the invitation link to invite the Shuffle bot into your server
 - [Bot Permission Requirements](#bot-permission-requirements)
 - [Stand-Alone Project Setup](#stand-alone-project-setup)
 - [Docker Setup](#docker-setup)
-- [Heroku Setup](#heroku-setup)
-- [Heroku Deployment](#heroku-deployment)
 - [Usage](#usage)
 
 ----------------------------------
@@ -40,8 +34,6 @@ To install the required libraries using the requirements.txt file, execute the f
 - ***pip install -r requirements.txt***
 
 ## Optional Setup
-- Heroku CLI
-  - [Heroku CLI Installation Guide](https://devcenter.heroku.com/articles/heroku-cli)
 - Docker
   - [Docker Installation Guide](https://docs.docker.com/get-docker/)
 
@@ -96,28 +88,6 @@ The following are permission requirements needed by the Shuffle bot
 - Execute the following command to run the Docker container
   - Interactive process: **docker run -it shuffle**
   - Detached from the process: **docker run -d --rm shuffle**
-
-## Heroku Setup
-- Clone the repository
-- Verify Heroku app has been created within Heroku dashboard
-- Verify you're logged into your Heroku account within your terminal of choice
-  - Execute **heroku login**
-- Setup Heroku remote branch
-  - Execute **heroku git:remote -a _name-of-app_**
-- Push repository onto Heroku branch
-  - Execute **git push heroku master**
-  - Heroku will build the app each time a SCM change occurs
-- Follow the [Heroku Config Var Setup Guide](https://devcenter.heroku.com/articles/config-vars) to add the following environment variables by adding it as a **Config Var** within the Heroku dashboard or through the Heroku CLI
-  - **DISCORD_BOT_TOKEN**=***Shuffle bot secret token***
-  - **DISCORD_BOT_TRIGGER**=**shuffle**
-
-## Heroku Deployment
-- Verify Heroku is setup in you machine
-  - Run through steps indicated in [Heroku Setup](#heroku-setup)
-- After commiting changes made locally, push onto the Heroku branch
-  - Execute **git push heroku master**
-  - Heroku will build the app each time a SCM change occurs
-- Changes pushed onto Heroku branch will not be transferred onto **Shuffle** repository unless pushed onto repository as well
 
 ## Usage
 - To bring up the **Shuffle Bot** help menu
