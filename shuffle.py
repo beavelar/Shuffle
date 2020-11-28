@@ -137,6 +137,14 @@ async def on_ready():
     await createChannels(bot.guilds, bot.user, 'Bots', 'shuffle', WELCOME_MESSAGE)
 
 #########################################################################################################
+# On_ready handler - Executes after bot starts up
+
+@bot.event
+async def on_guild_join(guild):
+    print(f'{bot.user} has joined a guild: {guild.name}')
+    await createChannels([guild], bot.user, 'Bots', 'shuffle', WELCOME_MESSAGE)
+
+#########################################################################################################
 # On_error handler - Executes after unhandled errors pop up
 
 @bot.event

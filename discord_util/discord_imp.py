@@ -170,12 +170,8 @@ async def deleteMessage(message):
 # guilds: List of Guild (Discord API)
 # categoryName: String
 # channelName: String
-#
-# Returns: List of Channel (Discord API)
 
 async def createChannels(guilds, bot, categoryName, channelName, welcomeMessage):
-    channels = []
-
     for guild in guilds:
         try:
             category = await createCategory(guild, categoryName)
@@ -193,10 +189,6 @@ async def createChannels(guilds, bot, categoryName, channelName, welcomeMessage)
             print('Discord create text channel function failed to create desired channel')
             print(f'Guild: {guild.name}')
             print('-----------------------------------------------------------------------------\n')
-        
-        channels.append(channel)
-
-    return channels
 
 
 #########################################################################################################
