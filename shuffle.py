@@ -2,7 +2,7 @@ import os
 import aiocron
 from dotenv import load_dotenv
 
-from shuffle_util.random import *
+from shuffle_util.cache import *
 from shuffle_util.shuffle_case import *
 
 import discord
@@ -42,29 +42,52 @@ except Exception as ex:
     exit(1)
 
 RANDOM_SONG_CACHE = []
+TOP_SONG_US_CACHE = None
+TOP_SONG_GLOBAL_CACHE = None
+TOP_SONG_TIKTOK_CACHE = None
 bot = commands.Bot(command_prefix='!')
 bot.remove_command('help')
 
 #########################################################################################################
-# Generates random song everyday at 17:00 MST
+# Generates random song everyday at 17:00 UTC
 
 @aiocron.crontab('0 17 * * *')
 async def dailyRandomSong():
     global RANDOM_SONG_CACHE
+    global TOP_SONG_US_CACHE
+    global TOP_SONG_GLOBAL_CACHE
+    global TOP_SONG_TIKTOK_CACHE
 
     for guild in bot.guilds:
         for channel in guild.channels:
             if channel.category != None and channel.category.name == 'Bots' and channel.name == 'shuffle':
-                await shuffle_case(DiscordMsgType.RANDOM, bot.user, channel, RANDOM_SONG_CACHE, HELP_MENU)
+                await shuffle_case(DiscordMsgType.RANDOM, bot.user, channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
+
+#########################################################################################################
+# Generates random song cache daily
+
+@aiocron.crontab('0 0 */1 * *')
+async def randomSongCache():
+    global RANDOM_SONG_CACHE
+
+    RANDOM_SONG_CACHE = await buildRandomCache()
 
 #########################################################################################################
 # Generates random song cache hourly
 
 @aiocron.crontab('0 */1 * * *')
-async def dailyRandomSongCache():
-    global RANDOM_SONG_CACHE
+async def topSongCache():
+    global TOP_SONG_US_CACHE
+    global TOP_SONG_GLOBAL_CACHE
+    global TOP_SONG_TIKTOK_CACHE
 
-    RANDOM_SONG_CACHE = await buildRandomCache()
+    try:
+        TOP_SONG_TIKTOK_CACHE = await buildTopSongTikTokCache()
+        TOP_SONG_US_CACHE = await buildTopSongCache('regional', 'us')
+        TOP_SONG_GLOBAL_CACHE = await buildTopSongCache('regional', 'global')
+    except Exception as ex:
+        print('Unknown exception caught building cache at cron job')
+        print(str(ex))
 
 #########################################################################################################
 # Bot trigger command handler - Discord function that executes after bot command is received
@@ -75,18 +98,21 @@ async def dailyRandomSongCache():
 @bot.command(name=BOT_TRIGGER)
 async def random(message, *args):
     global RANDOM_SONG_CACHE
+    global TOP_SONG_US_CACHE
+    global TOP_SONG_GLOBAL_CACHE
+    global TOP_SONG_TIKTOK_CACHE
 
     if (len(args) == 0):
-        await shuffle_case(DiscordMsgType.RANDOM, bot.user, message.channel, RANDOM_SONG_CACHE, HELP_MENU)
+        await shuffle_case(DiscordMsgType.RANDOM, bot.user, message.channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
 
     if (DiscordMsgType.TOP in args):
-        await shuffle_case(DiscordMsgType.TOP, bot.user, message.channel, RANDOM_SONG_CACHE, HELP_MENU)
+        await shuffle_case(DiscordMsgType.TOP, bot.user, message.channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
     
     if (DiscordMsgType.TIKTOK in args):
-        await shuffle_case(DiscordMsgType.TIKTOK, bot.user, message.channel, RANDOM_SONG_CACHE, HELP_MENU)
+        await shuffle_case(DiscordMsgType.TIKTOK, bot.user, message.channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
 
     if (DiscordMsgType.HELP in args):
-        await shuffle_case(DiscordMsgType.HELP, bot.user, message.channel, RANDOM_SONG_CACHE, HELP_MENU)
+        await shuffle_case(DiscordMsgType.HELP, bot.user, message.channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up
@@ -94,10 +120,21 @@ async def random(message, *args):
 @bot.event
 async def on_ready():
     global RANDOM_SONG_CACHE
-    print(f'{bot.user} has connected')
+    global TOP_SONG_US_CACHE
+    global TOP_SONG_GLOBAL_CACHE
+    global TOP_SONG_TIKTOK_CACHE
 
+    try:
+        RANDOM_SONG_CACHE = await buildRandomCache()
+        TOP_SONG_TIKTOK_CACHE = await buildTopSongTikTokCache()
+        TOP_SONG_US_CACHE = await buildTopSongCache('regional', 'us')
+        TOP_SONG_GLOBAL_CACHE = await buildTopSongCache('regional', 'global')
+    except Exception as ex:
+        print('Unknown exception caught building cache at startup')
+        print(str(ex))
+
+    print(f'{bot.user} has connected')
     await createChannels(bot.guilds, bot.user, 'Bots', 'shuffle', WELCOME_MESSAGE)
-    RANDOM_SONG_CACHE = await buildRandomCache()
 
 #########################################################################################################
 # On_error handler - Executes after unhandled errors pop up

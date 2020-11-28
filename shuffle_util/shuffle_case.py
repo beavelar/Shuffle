@@ -32,18 +32,16 @@ async def help(user, channel, helpMenu):
 # user: User (Discord API)
 # channel: Channel (Discord API)
 
-async def top(user, channel):
+async def top(user, channel, topUs, topGlobal):
     start = time.perf_counter()
 
-    topGlobalSong = getTopSong('regional', 'global')
-    topUSSong = getTopSong('regional', 'us')
-    report = topGlobalSong.generateTopSongReport() + '\n\n' + topUSSong.generateTopSongReport()
+    report = topUs.generateTopSongReport() + '\n\n' + topGlobal.generateTopSongReport()
     
     stop = time.perf_counter()
     elapsedTime = stop - start
 
     print('-----------------------------------------------------------------------------')
-    print(f'Top Song Retrieval Took: {elapsedTime} seconds')
+    print(f'Top Song Report Retrieval Took: {elapsedTime} seconds')
     print(f'Channel Name: {channel.name}')
     print(f'User: {user.display_name}')
     print('-----------------------------------------------------------------------------\n')
@@ -57,17 +55,16 @@ async def top(user, channel):
 # user: User (Discord API)
 # channel: Channel (Discord API)
 
-async def tiktok(user, channel):
+async def tiktok(user, channel, tiktokSong):
     start = time.perf_counter()
 
-    topTikTokSong = getTopTikTokSong()
-    report = topTikTokSong.generateTopSongReport()
+    report = tiktokSong.generateTopSongReport()
     
     stop = time.perf_counter()
     elapsedTime = stop - start
 
     print('-----------------------------------------------------------------------------')
-    print(f'Top Song Retrieval Took: {elapsedTime} seconds')
+    print(f'Top TikTok Song Report Retrieval Took: {elapsedTime} seconds')
     print(f'Channel Name: {channel.name}')
     print(f'User: {user.display_name}')
     print('-----------------------------------------------------------------------------\n')
@@ -97,12 +94,12 @@ async def random(user, channel, songs):
 # songs: List of Song
 # helpMenu: string
 
-async def shuffle_case(case, user, channel, songs, helpMenu):
+async def shuffle_case(case, user, channel, songs, topUs, topGlobal, tiktokSong, helpMenu):
     if case == DiscordMsgType.HELP:
         await help(user, channel, helpMenu)
     elif case == DiscordMsgType.TOP:
-        await top(user, channel)
+        await top(user, channel, topUs, topGlobal)
     elif case == DiscordMsgType.TIKTOK:
-        await tiktok(user, channel)
+        await tiktok(user, channel, tiktokSong)
     elif case == DiscordMsgType.RANDOM:
         await random(user, channel, songs)
