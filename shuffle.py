@@ -1,4 +1,5 @@
 import os
+import aiocron
 from dotenv import load_dotenv
 
 from shuffle_util.shuffle_case import *
@@ -63,22 +64,14 @@ async def random(message, *args):
         await shuffle_case(DiscordMsgType.HELP, bot.user, message.channel, HELP_MENU)
             
 #########################################################################################################
-# Discord task loop handler - Executes once daily
+# Generates random song everyday at 17:00 MST
 
-@tasks.loop(hours = 24)
+@aiocron.crontab('0 17 * * *')
 async def dailyRandomSong():
     for guild in bot.guilds:
         for channel in guild.channels:
             if channel.category != None and channel.category.name == 'Bots' and channel.name == 'shuffle':
                 await shuffle_case(DiscordMsgType.RANDOM, bot.user, channel, HELP_MENU)
-
-#########################################################################################################
-# dailyRandomSong loop handler - Waits for Discord bot to be in a ready state
-
-@dailyRandomSong.before_loop
-async def before():
-    await bot.wait_until_ready()
-    print(f'{bot.user} is in a ready state')
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up
@@ -114,5 +107,4 @@ async def on_command_error(ctx, error):
 #########################################################################################################
 # Startup command to start the bot
 
-dailyRandomSong.start()
 bot.run(BOT_TOKEN)

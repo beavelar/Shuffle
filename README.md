@@ -21,14 +21,12 @@ Use the invitation link to invite the Shuffle bot into your server
 ## Project Requirements
 - Python
   - [Python Organization Website](https://www.python.org/)
-- Discord Python library
-  - [Discord.py Installation Guide](https://discordpy.readthedocs.io/en/latest/intro.html)
-- Dotenv Python library
-  - [Dotenv Installation Guide](https://pypi.org/project/python-dotenv/)
-- Requests Python library
-  - [Requests Installation Guide](https://pypi.org/project/requests/)
-- BeautifulSoup4 Python library
-  - [BeautifulSoup4 Installation Guide](https://pypi.org/project/beautifulsoup4/)
+- Python Libraries
+  - Discord.py: [Discord.py Installation Guide](https://discordpy.readthedocs.io/en/latest/intro.html)
+  - Dotenv: [Dotenv Installation Guide](https://pypi.org/project/python-dotenv/)
+  - Requests: [Requests Installation Guide](https://pypi.org/project/requests/)
+  - BeautifulSoup4: [BeautifulSoup4 Installation Guide](https://pypi.org/project/beautifulsoup4/)
+  - Aiocran: [Aiocran Installation Guide](https://pypi.org/project/aiocron/)
 
 To install the required libraries using the requirements.txt file, execute the following command:
 - ***pip install -r requirements.txt***
