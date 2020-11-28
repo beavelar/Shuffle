@@ -94,11 +94,10 @@ async def random(message, *args):
 @bot.event
 async def on_ready():
     global RANDOM_SONG_CACHE
+    print(f'{bot.user} has connected')
 
     await createChannels(bot.guilds, bot.user, 'Bots', 'shuffle', WELCOME_MESSAGE)
-
     RANDOM_SONG_CACHE = await buildRandomCache()
-    print(f'{bot.user} has connected')
 
 #########################################################################################################
 # On_error handler - Executes after unhandled errors pop up
