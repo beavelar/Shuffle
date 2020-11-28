@@ -47,10 +47,7 @@ The following are permission requirements needed by the Shuffle bot
    - Send Messages
    - Manage Messages
    - Embed Links
-   - Attach Files
    - Read Message History
-   - Mention everyone
-   - Use External Emojis
 
 ## Stand-Alone Project Setup
 - Clone the repository
