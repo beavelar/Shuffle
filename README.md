@@ -26,7 +26,7 @@ Use the invitation link to invite the Shuffle bot into your server
   - Dotenv: [Dotenv Installation Guide](https://pypi.org/project/python-dotenv/)
   - Requests: [Requests Installation Guide](https://pypi.org/project/requests/)
   - BeautifulSoup4: [BeautifulSoup4 Installation Guide](https://pypi.org/project/beautifulsoup4/)
-  - Aiocran: [Aiocran Installation Guide](https://pypi.org/project/aiocron/)
+  - Aiocron: [Aiocron Installation Guide](https://pypi.org/project/aiocron/)
 
 To install the required libraries using the requirements.txt file, execute the following command:
 - ***pip install -r requirements.txt***
