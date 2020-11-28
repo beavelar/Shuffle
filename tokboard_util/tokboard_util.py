@@ -1,15 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
 
-from tiktometer_util.Song import *
+from tokboard_util.Song import *
 
 #########################################################################################################
-# Retrieves the current top song from TikTok using TikTometer
+# Retrieves the current top song from TikTok using Tokboard
 #
 # Returns: Song Object
 
 def getTopTikTokSong():
-    requestUrl = 'https://tiktometer.com/'
+    requestUrl = 'https://tokboard.com/'
     
     response = requests.get(requestUrl)
     responseParsed = BeautifulSoup(response.text, 'html.parser')

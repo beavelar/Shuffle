@@ -9,8 +9,8 @@ from spotify_util.spotify_util import *
 
 from discord_util.discord_imp import *
 
-from tiktometer_util.Song import *
-from tiktometer_util.tiktometer_util import *
+from tokboard_util.Song import *
+from tokboard_util.tokboard_util import *
 
 from discord_util.DiscordMsgType import DiscordMsgType
 

@@ -3,7 +3,7 @@ This repository contains code for a Discord bot that displays a random or popula
 
 The goal of the bot is to provide top and random songs at the ease of the user.
 
-Uses [SpotifyCharts](https://spotifycharts.com/regional) and [TikTometer](https://tiktometer.com/) for the retrieval of the current top songs.
+Uses [SpotifyCharts](https://spotifycharts.com/regional) and [Tokboard](https://tokboard.com/) for the retrieval of the current top songs.
 
 Use the invitation link to invite the Shuffle bot into your server
   - [Shuffle Bot Invitation Link](https://discord.com/api/oauth2/authorize?client_id=745448751287631996&permissions=268528656&scope=bot)
