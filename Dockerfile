@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Start app
-CMD ["python", "./shuffle.py"]
+CMD ["python", "-u", "./shuffle.py"]
