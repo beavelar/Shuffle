@@ -1,12 +1,13 @@
-
-```
-Welcome!
-Shuffle bot messages out a random song every day.  To get an immediate response, or for help, use the following commands:
+__**Welcome!**__
+Shuffle bot messages out a random song every day.  To get an immediate response, or for help, use the following commands
 
 
-Commands:
-  !shuffle help: Displays the help menu
-  !shuffle: Displays random song
-  !shuffle top: Displays top song (US and Global)
-  !shuffle tiktok: Displays top TikTok song
-```
+__**Commands:**__
+**!shuffle help**: Displays the help menu
+**!shuffle**: Displays random song
+**!shuffle top**: Displays top song (US and Global)
+**!shuffle tiktok**: Displays top TikTok song
+
+
+__**GitHub:**__
+  https://github.com/beavelar/Shuffle
