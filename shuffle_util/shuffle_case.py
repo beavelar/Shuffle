@@ -80,35 +80,10 @@ async def tiktok(user, channel):
 # Parameters
 # user: User (Discord API)
 # channel: Channel (Discord API)
-
-async def random(user, channel):
-    start = time.perf_counter()
-
-    songs = []
-    threads = []
-    requestList = [Request('regional', 'us'), Request('regional', 'global'), Request('viral', 'us'), Request('viral', 'global')]
-    threadList = ['RandomThread-1', 'RandomThread-2', 'RandomThread-3', 'RandomThread-4']
-
-    for index in range(4):
-        thread = Thread(threadList[index], requestList[index].getChart(), requestList[index].getRegion(), songs)
-        thread.start()
-        threads.append(thread)
-
-    for thread in threads:
-        # Waits for thread to complete
-        thread.join()
-
+# songs: List of Song
+async def random(user, channel, songs):
     randomIndex = rand.randint(0, len(songs) - 1)
     randomSong = rand.randint(0, len(songs[randomIndex]) - 1)
-
-    stop = time.perf_counter()
-    elapsedTime = stop - start
-
-    print('-----------------------------------------------------------------------------')
-    print(f'Top Song Retrieval Took: {elapsedTime} seconds')
-    print(f'Channel Name: {channel.name}')
-    print(f'User: {user.display_name}')
-    print('-----------------------------------------------------------------------------\n')
 
     await sendMessage(user, channel, songs[randomIndex][randomSong].generateRandomSongReport(), False)
 
@@ -119,9 +94,10 @@ async def random(user, channel):
 # case: DiscordMsgType enum value
 # user: User (Discord API)
 # channel: Channel (Discord API)
+# songs: List of Song
 # helpMenu: string
 
-async def shuffle_case(case, user, channel, helpMenu):
+async def shuffle_case(case, user, channel, songs, helpMenu):
     if case == DiscordMsgType.HELP:
         await help(user, channel, helpMenu)
     elif case == DiscordMsgType.TOP:
@@ -129,4 +105,4 @@ async def shuffle_case(case, user, channel, helpMenu):
     elif case == DiscordMsgType.TIKTOK:
         await tiktok(user, channel)
     elif case == DiscordMsgType.RANDOM:
-        await random(user, channel)
+        await random(user, channel, songs)

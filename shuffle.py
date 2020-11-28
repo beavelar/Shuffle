@@ -2,6 +2,7 @@ import os
 import aiocron
 from dotenv import load_dotenv
 
+from shuffle_util.random import *
 from shuffle_util.shuffle_case import *
 
 import discord
@@ -40,8 +41,30 @@ except Exception as ex:
     print('Exiting..')
     exit(1)
 
+RANDOM_SONG_CACHE = []
 bot = commands.Bot(command_prefix='!')
 bot.remove_command('help')
+
+#########################################################################################################
+# Generates random song everyday at 17:00 MST
+
+@aiocron.crontab('0 17 * * *')
+async def dailyRandomSong():
+    global RANDOM_SONG_CACHE
+
+    for guild in bot.guilds:
+        for channel in guild.channels:
+            if channel.category != None and channel.category.name == 'Bots' and channel.name == 'shuffle':
+                await shuffle_case(DiscordMsgType.RANDOM, bot.user, channel, RANDOM_SONG_CACHE, HELP_MENU)
+
+#########################################################################################################
+# Generates random song cache hourly
+
+@aiocron.crontab('0 */1 * * *')
+async def dailyRandomSongCache():
+    global RANDOM_SONG_CACHE
+
+    RANDOM_SONG_CACHE = await buildRandomCache()
 
 #########################################################################################################
 # Bot trigger command handler - Discord function that executes after bot command is received
@@ -51,34 +74,30 @@ bot.remove_command('help')
 
 @bot.command(name=BOT_TRIGGER)
 async def random(message, *args):
+    global RANDOM_SONG_CACHE
+
     if (len(args) == 0):
-        await shuffle_case(DiscordMsgType.RANDOM, bot.user, message.channel, HELP_MENU)
+        await shuffle_case(DiscordMsgType.RANDOM, bot.user, message.channel, RANDOM_SONG_CACHE, HELP_MENU)
 
     if (DiscordMsgType.TOP in args):
-        await shuffle_case(DiscordMsgType.TOP, bot.user, message.channel, HELP_MENU)
+        await shuffle_case(DiscordMsgType.TOP, bot.user, message.channel, RANDOM_SONG_CACHE, HELP_MENU)
     
     if (DiscordMsgType.TIKTOK in args):
-        await shuffle_case(DiscordMsgType.TIKTOK, bot.user, message.channel, HELP_MENU)
+        await shuffle_case(DiscordMsgType.TIKTOK, bot.user, message.channel, RANDOM_SONG_CACHE, HELP_MENU)
 
     if (DiscordMsgType.HELP in args):
-        await shuffle_case(DiscordMsgType.HELP, bot.user, message.channel, HELP_MENU)
-            
-#########################################################################################################
-# Generates random song everyday at 17:00 MST
-
-@aiocron.crontab('0 17 * * *')
-async def dailyRandomSong():
-    for guild in bot.guilds:
-        for channel in guild.channels:
-            if channel.category != None and channel.category.name == 'Bots' and channel.name == 'shuffle':
-                await shuffle_case(DiscordMsgType.RANDOM, bot.user, channel, HELP_MENU)
+        await shuffle_case(DiscordMsgType.HELP, bot.user, message.channel, RANDOM_SONG_CACHE, HELP_MENU)
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up
 
 @bot.event
 async def on_ready():
+    global RANDOM_SONG_CACHE
+
     await createChannels(bot.guilds, bot.user, 'Bots', 'shuffle', WELCOME_MESSAGE)
+
+    RANDOM_SONG_CACHE = await buildRandomCache()
     print(f'{bot.user} has connected')
 
 #########################################################################################################
