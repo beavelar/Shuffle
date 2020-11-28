@@ -1,17 +1,7 @@
 import time
 import random as rand
 
-from shuffle_util.thread import *
-from shuffle_util.request import *
-
-from spotify_util.Song import *
-from spotify_util.spotify_util import *
-
-from discord_util.discord_imp import *
-
-from tokboard_util.Song import *
-from tokboard_util.tokboard_util import *
-
+from discord_util.discord_imp import sendMessage
 from discord_util.DiscordMsgType import DiscordMsgType
 
 #########################################################################################################

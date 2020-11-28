@@ -1,9 +1,6 @@
-import requests
 import threading
 
-from bs4 import BeautifulSoup
-from spotify_util.Song import *
-from spotify_util.spotify_util import *
+from spotify_util.spotify_util import getTop200List
 
 class Thread(threading.Thread):
     def __init__(self, name, chart, region, songs):

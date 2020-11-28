@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from tokboard_util.Song import *
+from tokboard_util.Song import Song
 
 #########################################################################################################
 # Retrieves the current top song from TikTok using Tokboard
