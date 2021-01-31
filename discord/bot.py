@@ -59,7 +59,7 @@ async def dailyRandomSong():
     for guild in bot.guilds:
         for channel in guild.channels:
             if channel.category != None and channel.category.name == 'Bots' and channel.name == 'shuffle':
-                await shuffle_case(DiscordMsgType.RANDOM, bot.user, channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
+                await shuffle_case(case=DiscordMsgType.RANDOM, user=bot.user, channel=channel, songs=RANDOM_SONG_CACHE)
 
 #########################################################################################################
 # Generates random song cache daily
@@ -100,16 +100,16 @@ async def random(message, *args):
     global TOP_SONG_TIKTOK_CACHE
 
     if (len(args) == 0):
-        await shuffle_case(DiscordMsgType.RANDOM, bot.user, message.channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
+        await shuffle_case(case=DiscordMsgType.RANDOM, user=bot.user, channel=message.channel, songs=RANDOM_SONG_CACHE)
 
     if (DiscordMsgType.TOP in args):
-        await shuffle_case(DiscordMsgType.TOP, bot.user, message.channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
+        await shuffle_case(case=DiscordMsgType.TOP, user=bot.user, channel=message.channel, us_songs=TOP_SONG_US_CACHE, global_songs=TOP_SONG_GLOBAL_CACHE)
     
     if (DiscordMsgType.TIKTOK in args):
-        await shuffle_case(DiscordMsgType.TIKTOK, bot.user, message.channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
+        await shuffle_case(case=DiscordMsgType.TIKTOK, user=bot.user, channel=message.channel, tiktok=TOP_SONG_TIKTOK_CACHE)
 
     if (DiscordMsgType.HELP in args):
-        await shuffle_case(DiscordMsgType.HELP, bot.user, message.channel, RANDOM_SONG_CACHE, TOP_SONG_US_CACHE, TOP_SONG_GLOBAL_CACHE, TOP_SONG_TIKTOK_CACHE, HELP_MENU)
+        await shuffle_case(case=DiscordMsgType.HELP, user=bot.user, channel=message.channel, help=HELP_MENU)
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up

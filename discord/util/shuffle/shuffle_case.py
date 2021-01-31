@@ -1,6 +1,7 @@
 import time
 import logging
 import random as rand
+from util.shuffle.ShuffleEnum import ShuffleEnum
 from util.discord.discord_imp import sendMessage
 from util.discord.DiscordMsgType import DiscordMsgType
 
@@ -73,12 +74,27 @@ async def random(user, channel, songs):
 # songs: List of Song
 # helpMenu: string
 
-async def shuffle_case(case, user, channel, songs, topUs, topGlobal, tiktokSong, helpMenu):
-    if case == DiscordMsgType.HELP:
-        await help(user, channel, helpMenu)
-    elif case == DiscordMsgType.TOP:
-        await top(user, channel, topUs, topGlobal)
-    elif case == DiscordMsgType.TIKTOK:
-        await tiktok(user, channel, tiktokSong)
-    elif case == DiscordMsgType.RANDOM:
-        await random(user, channel, songs)
+async def shuffle_case(**args):
+    if ShuffleEnum.CASE in args and ShuffleEnum.USER in args and ShuffleEnum.CHANNEL in args:
+        if args.get('case') == DiscordMsgType.HELP:
+            if ShuffleEnum.HELP in args:
+                await help(args['user'], args['channel'], args['help'])
+            else:
+                logger.warning('Help menu not provided, ignoring function call')
+        elif args.get('case') == DiscordMsgType.TOP:
+            if ShuffleEnum.US_SONGS in args and ShuffleEnum.GLOBAL_SONGS in args:
+                await top(args.get('user'), args.get('channel'), args.get('us_songs'), args.get('global_songs'))
+            else:
+                logger.warning('Top us or top global songs not provided, ignoring function call')
+        elif args.get('case') == DiscordMsgType.TIKTOK:
+            if ShuffleEnum.TIKTOK in args:
+                await tiktok(args.get('user'), args.get('channel'), args.get('tiktok'))
+            else:
+                logger.warning('TikTok song not provided, ignoring function call')
+        elif args.get('case') == DiscordMsgType.RANDOM:
+            if ShuffleEnum.SONGS in args:
+                await random(args.get('user'), args.get('channel'), args.get('songs'))
+            else:
+                logger.warning('Songs not provided, ignoring function call')
+    else:
+        logger.warning('Case, user or channel not provided, ignoring function call')
