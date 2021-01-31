@@ -1,5 +1,6 @@
 import os
 import aiocron
+import logging
 from dotenv import load_dotenv
 from discord.ext import commands
 from util.discord.discord_imp import createChannels
@@ -10,23 +11,23 @@ from util.shuffle.cache import buildRandomCache, buildTopSongCache, buildTopSong
 #########################################################################################################
 # Global definitions
 
+logging.basicConfig(format='%(levelname)s: %(asctime)s - %(name)s.%(funcName)s - %(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 try: 
     helpMenuFile = open('support/help_menu.txt', 'r')
     welcomeFile = open('support/welcome_message.txt', 'r')
 except Exception as ex:
-    print('Exception caught attempting to open support files')
-    print('Please verify support files exist and are in the correct location')
-    print('Exiting..')
-    print(str(ex))
+    logger.critical('Exception caught attempting to open support files. Please verify support files exist and are in the correct location')
+    logger.critical(str(ex))
     exit(1)
 
 try:
     HELP_MENU = helpMenuFile.read()
     WELCOME_MESSAGE = welcomeFile.read()
 except Exception as ex:
-    print('Exception caught attempting to read support files')
-    print('Exiting..')
-    print(str(ex))
+    logger.critical('Exception caught attempting to read support files')
+    logger.critical(str(ex))
     exit(1)
 
 try:
@@ -34,9 +35,8 @@ try:
     BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
     BOT_TRIGGER = os.getenv('DISCORD_BOT_TRIGGER')
 except Exception as ex:
-    print('Failed to retrieving environment variables')
-    print('Please verify environment variable exists')
-    print('Exiting..')
+    logger.critical('Failed to retrieving environment variables. Please verify environment variable exists')
+    logger.critical(str(ex))
     exit(1)
 
 RANDOM_SONG_CACHE = []
@@ -67,7 +67,6 @@ async def dailyRandomSong():
 @aiocron.crontab('0 0 */1 * *')
 async def randomSongCache():
     global RANDOM_SONG_CACHE
-
     RANDOM_SONG_CACHE = await buildRandomCache()
 
 #########################################################################################################
@@ -84,8 +83,8 @@ async def topSongCache():
         TOP_SONG_US_CACHE = await buildTopSongCache('regional', 'us')
         TOP_SONG_GLOBAL_CACHE = await buildTopSongCache('regional', 'global')
     except Exception as ex:
-        print('Unknown exception caught building cache at cron job')
-        print(str(ex))
+        logger.error('Unknown exception caught building cache at cron job')
+        logger.error(str(ex))
 
 #########################################################################################################
 # Bot trigger command handler - Discord function that executes after bot command is received
@@ -128,10 +127,11 @@ async def on_ready():
         TOP_SONG_US_CACHE = await buildTopSongCache('regional', 'us')
         TOP_SONG_GLOBAL_CACHE = await buildTopSongCache('regional', 'global')
     except Exception as ex:
-        print('Unknown exception caught building cache at startup')
-        print(str(ex))
+        logger.error('Unknown exception caught building cache at startup')
+        logger.error(str(ex))
 
-    print(f'{bot.user} has connected')
+
+    logger.info(f'{bot.user} has connected')
     await createChannels(bot.guilds, bot.user, 'Bots', 'shuffle', WELCOME_MESSAGE)
 
 #########################################################################################################
@@ -139,7 +139,7 @@ async def on_ready():
 
 @bot.event
 async def on_guild_join(guild):
-    print(f'{bot.user} has joined a guild: {guild.name}')
+    logger.info(f'{bot.user} has joined a guild: {guild.name}')
     await createChannels([guild], bot.user, 'Bots', 'shuffle', WELCOME_MESSAGE)
 
 #########################################################################################################
@@ -148,11 +148,8 @@ async def on_guild_join(guild):
 @bot.event
 async def on_error(event, *args, **kwargs):
     message = args[0]
-
-    print('-----------------------------------------------------------------------------')
-    print('Unhandled error occurred in on_error')
-    print(f'Error: {message}')
-    print('-----------------------------------------------------------------------------')
+    logger.error('Unhandled error occurred in on_error')
+    logger.error(f'{message}')
 
 #########################################################################################################
 # On_command_error handler - Executes after unhandled errors pop up
@@ -160,10 +157,8 @@ async def on_error(event, *args, **kwargs):
 @bot.event
 async def on_command_error(ctx, error):
     if not isinstance(error, commands.errors.CommandNotFound):
-        print('-----------------------------------------------------------------------------')
-        print('Unhandled error occurred in on_command_error')
-        print(str(error))
-        print('-----------------------------------------------------------------------------')
+        logger.error('Unhandled error occurred in on_command_error')
+        logger.error(str(error))
 
 #########################################################################################################
 # Startup command to start the bot

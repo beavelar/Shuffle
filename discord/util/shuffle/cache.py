@@ -1,8 +1,11 @@
 import time
+import logging
 from util.shuffle.thread import Thread
 from util.shuffle.request import Request
 from util.spotify.spotify_util import getTop200List
 from util.tokboard.tokboard_util import getTopTikTokSong
+
+logger = logging.getLogger(__name__)
 
 #########################################################################################################
 # Builds top song cache to be used when top command is executed
@@ -10,20 +13,12 @@ from util.tokboard.tokboard_util import getTopTikTokSong
 # Returns: Song
 
 async def buildTopSongCache(urlExt, region):
-    print('-----------------------------------------------------------------------------')
-    print(f'Building top song cache for: {region}')
-    print('-----------------------------------------------------------------------------\n')
-
+    logger.info(f'Building top song cache for: {region}')
     start = time.perf_counter()
     top200 = getTop200List(urlExt, region)
-
     stop = time.perf_counter()
     elapsedTime = stop - start
-
-    print('-----------------------------------------------------------------------------')
-    print(f'Top song cache building for {region} took: {elapsedTime} seconds')
-    print('-----------------------------------------------------------------------------\n')
-
+    logger.info(f'Top song cache building for {region} took: {elapsedTime} seconds')
     return top200[0]
 
 #########################################################################################################
@@ -32,20 +27,12 @@ async def buildTopSongCache(urlExt, region):
 # Returns: Song
 
 async def buildTopSongTikTokCache():
-    print('-----------------------------------------------------------------------------')
-    print(f'Building top TikTok song cache')
-    print('-----------------------------------------------------------------------------\n')
-
+    logger.info(f'Building top TikTok song cache')
     start = time.perf_counter()
     topTikTokSong = getTopTikTokSong()
-
     stop = time.perf_counter()
     elapsedTime = stop - start
-
-    print('-----------------------------------------------------------------------------')
-    print(f'Top TikTok song cache building took: {elapsedTime} seconds')
-    print('-----------------------------------------------------------------------------\n')
-
+    logger.info(f'Top TikTok song cache building took: {elapsedTime} seconds')
     return topTikTokSong
 
 #########################################################################################################
@@ -54,12 +41,8 @@ async def buildTopSongTikTokCache():
 # Returns: List of Song
 
 async def buildRandomCache():
-    print('-----------------------------------------------------------------------------')
-    print(f'Building random song cache')
-    print('-----------------------------------------------------------------------------\n')
-
+    logger.info(f'Building random song cache')
     start = time.perf_counter()
-
     threads = []
     randomSongCache = []
     requestList = [Request('regional', 'us'), Request('regional', 'global'), Request('viral', 'us'), Request('viral', 'global')]
@@ -76,9 +59,5 @@ async def buildRandomCache():
 
     stop = time.perf_counter()
     elapsedTime = stop - start
-
-    print('-----------------------------------------------------------------------------')
-    print(f'Random song cache building took: {elapsedTime} seconds')
-    print('-----------------------------------------------------------------------------\n')
-
+    logger.info(f'Random song cache building took: {elapsedTime} seconds')
     return randomSongCache

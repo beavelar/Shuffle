@@ -1,7 +1,10 @@
+import logging
 from discord import NotFound
 from discord import Forbidden
 from discord import HTTPException
 from discord import PermissionOverwrite
+
+logger = logging.getLogger(__name__)
 
 #########################################################################################################
 # Retrieves specific message provided the Discord message URL
@@ -19,46 +22,34 @@ async def fetchMessage(bot, channel, url):
 
     # Message id will be the last param in Discord URL
     messageId = int(parsedMessage[len(parsedMessage) - 1])
-
-    print('-----------------------------------------------------------------------------')
-    print('Fetching Message')
-    print(f'Channel Name: {channel.name}')
-    print(f'\nMessage URL: {url}')
-    print(f'\nMessage ID: {str(messageId)}')
-    print('-----------------------------------------------------------------------------\n')
+    logger.info('Fetching Message')
+    logger.info(f'Channel Name: {channel.name}')
+    logger.info(f'Message URL: {url}')
+    logger.info(f'Message ID: {str(messageId)}')
 
     try:
         fetchedMessage = await channel.fetch_message(messageId)
-        
-        print('-----------------------------------------------------------------------------')
-        print('Message Fetched')
-        print(f'Author: {fetchedMessage.author.display_name}')
-        print(f'\nMessage:\n{fetchedMessage.content}')
-        print('-----------------------------------------------------------------------------\n')
+        logger.info('Message Fetched')
+        logger.info(f'Author: {fetchedMessage.author.display_name}')
+        logger.info(f'Message: {fetchedMessage.content}')
     except NotFound as ex:
-        print('-----------------------------------------------------------------------------')
-        print('NotFound exception caught in fetchMessage')
-        print('The specified message was not found')
-        print(f'Channel Name: {channel.name}')
-        print(f'\nMessage URL: {url}')
-        print(f'\nMessage ID: {str(messageId)}')
-        print('-----------------------------------------------------------------------------\n')
+        logger.error('NotFound exception caught in fetchMessage')
+        logger.error('The specified message was not found')
+        logger.error(f'Channel Name: {channel.name}')
+        logger.error(f'Message URL: {url}')
+        logger.error(f'Message ID: {str(messageId)}')
     except Forbidden as ex:
-        print('-----------------------------------------------------------------------------')
-        print('Forbidden exception caught in fetchMessage')
-        print(f'{bot.display_name} does not have the correct permissions to retrieve the message')
-        print(f'Channel Name: {channel.name}')
-        print(f'\nMessage URL: {url}')
-        print(f'\nMessage ID: {str(messageId)}')
-        print('-----------------------------------------------------------------------------\n')
+        logger.error('Forbidden exception caught in fetchMessage')
+        logger.error(f'{bot.display_name} does not have the correct permissions to retrieve the message')
+        logger.error(f'Channel Name: {channel.name}')
+        logger.error(f'Message URL: {url}')
+        logger.error(f'Message ID: {str(messageId)}')
     except HTTPException as ex:
-        print('-----------------------------------------------------------------------------')
-        print('HTTPException exception caught in fetchMessage')
-        print('Discord fetch_message function failed to retrieve message')
-        print(f'Channel Name: {channel.name}')
-        print(f'\nMessage URL: {url}')
-        print(f'\nMessage ID: {str(messageId)}')
-        print('-----------------------------------------------------------------------------\n')
+        logger.error('HTTPException exception caught in fetchMessage')
+        logger.error('Discord fetch_message function failed to retrieve message')
+        logger.error(f'Channel Name: {channel.name}')
+        logger.error(f'Message URL: {url}')
+        logger.error(f'Message ID: {str(messageId)}')
 
     return fetchedMessage
 
@@ -74,27 +65,20 @@ async def fetchMessage(bot, channel, url):
 
 async def getMessageHistory(bot, channel, msgLimit):
     messageHistory = None
-
-    print('-----------------------------------------------------------------------------')
-    print('Retrieving Message History')
-    print(f'Channel Name: {channel.name}')
-    print(f'\nMessage History Limit: {str(msgLimit)}')
-    print('-----------------------------------------------------------------------------\n')
+    logger.info('Retrieving Message History')
+    logger.info(f'Channel Name: {channel.name}')
+    logger.info(f'Message History Limit: {str(msgLimit)}')
     
     try:
         messageHistory = await channel.history(limit=msgLimit).flatten()
     except Forbidden as ex:
-        print('-----------------------------------------------------------------------------')
-        print('Forbidden exception caught in getMessageHistory')
-        print(f'{bot.display_name} does not have the correct permissions to retrieve the message')
-        print(f'Channel Name: {channel.name}')
-        print('-----------------------------------------------------------------------------\n')
+        logger.error('Forbidden exception caught in getMessageHistory')
+        logger.error(f'{bot.display_name} does not have the correct permissions to retrieve the message')
+        logger.error(f'Channel Name: {channel.name}')
     except HTTPException as ex:
-        print('-----------------------------------------------------------------------------')
-        print('HTTPException exception caught in getMessageHistory')
-        print('Discord history function failed to retrieve message history')
-        print(f'Channel Name: {channel.name}')
-        print('-----------------------------------------------------------------------------\n')
+        logger.error('HTTPException exception caught in getMessageHistory')
+        logger.error('Discord history function failed to retrieve message history')
+        logger.error(f'Channel Name: {channel.name}')
 
     return messageHistory
 
@@ -108,36 +92,28 @@ async def getMessageHistory(bot, channel, msgLimit):
 # pin: boolean
 
 async def sendMessage(bot, channel, message, pin):
-    print('-----------------------------------------------------------------------------')
-    print('Sending Message')
-    print(f'Channel Name: {channel.name}')
-    print(f'\nMessage:\n{message}')
-    print('-----------------------------------------------------------------------------\n')
+    logger.info('Sending Message')
+    logger.info(f'Channel Name: {channel.name}')
+    logger.info(f'Message: {message}')
     
     try:
         async_message = await channel.send(message)
 
         if pin:
-            print('-----------------------------------------------------------------------------')
-            print('Pinning Message')
-            print(f'Channel Name: {channel.name}')
-            print(f'\nMessage:\n{message}')
-            print('-----------------------------------------------------------------------------\n')
+            logger.info('Pinning Message')
+            logger.info(f'Channel Name: {channel.name}')
+            logger.info(f'Message: {message}')
             await async_message.pin()
     except HTTPException as ex:
-        print('-----------------------------------------------------------------------------')
-        print('HTTPException exception caught in sendMessage')
-        print('Discord send function failed to send message')
-        print(f'Channel Name: {channel.name}')
-        print(f'\nMessage:\n{message}')
-        print('-----------------------------------------------------------------------------\n')
+        logger.error('HTTPException exception caught in sendMessage')
+        logger.error('Discord send function failed to send message')
+        logger.error(f'Channel Name: {channel.name}')
+        logger.error(f'Message: {message}')
     except Forbidden as ex:
-        print('-----------------------------------------------------------------------------')
-        print('Forbidden exception caught in sendMessage')
-        print(f'{bot.display_name} does not have the correct permissions to retrieve the message')
-        print(f'Channel Name: {channel.name}')
-        print(f'\nMessage:\n{message}')
-        print('-----------------------------------------------------------------------------\n')
+        logger.error('Forbidden exception caught in sendMessage')
+        logger.error(f'{bot.display_name} does not have the correct permissions to retrieve the message')
+        logger.error(f'Channel Name: {channel.name}')
+        logger.error(f'Message: {message}')
 
 #########################################################################################################
 # Delete desired message
@@ -146,21 +122,17 @@ async def sendMessage(bot, channel, message, pin):
 # message: Message (Discord API)
 
 async def deleteMessage(message):
-    print('-----------------------------------------------------------------------------')
-    print('Deleting Message')
-    print(f'Author: {message.author.display_name}')
-    print(f'\nMessage:\n{message.clean_content}')
-    print('-----------------------------------------------------------------------------\n')
+    logger.info('Deleting Message')
+    logger.info(f'Author: {message.author.display_name}')
+    logger.info(f'Message: {message.clean_content}')
 
     try:
         await message.delete()
     except HTTPException as ex:
-        print('-----------------------------------------------------------------------------')
-        print('HTTPException exception caught in deleteMessage')
-        print('Discord delete function failed to delete desired message')
-        print(f'Author: {message.author.display_name}')
-        print(f'\nMessage:\n{message.clean_content}')
-        print('-----------------------------------------------------------------------------\n')
+        logger.error('HTTPException exception caught in deleteMessage')
+        logger.error('Discord delete function failed to delete desired message')
+        logger.error(f'Author: {message.author.display_name}')
+        logger.error(f'Message: {message.clean_content}')
 
 #########################################################################################################
 # Creates channel in all guilds if channel doesn't exist. Channel is created with desired category name
@@ -184,12 +156,9 @@ async def createChannels(guilds, bot, categoryName, channelName, welcomeMessage)
             await channel.set_permissions(guild.default_role, manage_messages=False, send_messages=False)
             await channel.set_permissions(bot, manage_messages=True, send_messages=True)
         except Forbidden:
-            print('-----------------------------------------------------------------------------')
-            print('Forbidden exception caught in createChannels')
-            print('Discord create text channel function failed to create desired channel')
-            print(f'Guild: {guild.name}')
-            print('-----------------------------------------------------------------------------\n')
-
+            logger.error('Forbidden exception caught in createChannels')
+            logger.error('Discord create text channel function failed to create desired channel')
+            logger.error(f'Guild: {guild.name}')
 
 #########################################################################################################
 # Creates desired channel category if it doesn't already exist in the guild
@@ -206,32 +175,18 @@ async def createCategory(guild, name):
             return category
 
     try:
-        print('-----------------------------------------------------------------------------')
-        print(f'Creating {name} channel category')
-        print(f'Guild: {guild.name}')
-        print('-----------------------------------------------------------------------------\n')
-
+        logger.info(f'Creating {name} channel category')
+        logger.info(f'Guild: {guild.name}')
         return await guild.create_category(name)
-
-        print('-----------------------------------------------------------------------------')
-        print(f'Successfully created {name} channel category')
-        print(f'Guild: {guild.name}')
-        print('-----------------------------------------------------------------------------\n')
     except Forbidden as ex:
-        print('-----------------------------------------------------------------------------')
-        print('Forbidden exception caught in createCategory')
-        print('Discord create category function failed to create desired category')
-        print(f'Guild: {guild.name}')
-        print('-----------------------------------------------------------------------------\n')
-
+        logger.error('Forbidden exception caught in createCategory')
+        logger.error('Discord create category function failed to create desired category')
+        logger.error(f'Guild: {guild.name}')
         raise ex
     except Exception as ex:
-        print('-----------------------------------------------------------------------------')
-        print('Unknown exception caught in createCategory')
-        print('Discord create category function failed to create desired category')
-        print(f'Guild: {guild.name}')
-        print('-----------------------------------------------------------------------------\n')
-
+        logger.error('Unknown exception caught in createCategory')
+        logger.error('Discord create category function failed to create desired category')
+        logger.error(f'Guild: {guild.name}')
         raise ex
 
 #########################################################################################################
@@ -245,21 +200,10 @@ async def createCategory(guild, name):
 # Returns: Channel (Discord API)
 
 async def createChannel(guild, category, name):
-    print('-----------------------------------------------------------------------------')
-    print(f'Creating {name} channel')
-    print(f'Guild: {guild.name}')
-    print(f'Category: {category.name}')
-    print('-----------------------------------------------------------------------------\n')
-
+    logger.info(f'Creating {name} channel')
+    logger.info(f'Guild: {guild.name}')
+    logger.info(f'Category: {category.name}')
     return await guild.create_text_channel(name, category=category)
-
-    print('-----------------------------------------------------------------------------')
-    print(f'Successfully created {name} channel')
-    print(f'Guild: {guild.name}')
-    print(f'Category: {category.name}')
-    print('-----------------------------------------------------------------------------\n')
-    
-
 
 #########################################################################################################
 # Searches if desired channel name exists

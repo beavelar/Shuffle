@@ -1,7 +1,10 @@
 import time
+import logging
 import random as rand
 from util.discord.discord_imp import sendMessage
 from util.discord.DiscordMsgType import DiscordMsgType
+
+logger = logging.getLogger(__name__)
 
 #########################################################################################################
 # Displays a help menu message onto the desired Discord channel
@@ -23,18 +26,12 @@ async def help(user, channel, helpMenu):
 
 async def top(user, channel, topUs, topGlobal):
     start = time.perf_counter()
-
     report = topUs.generateTopSongReport() + '\n\n' + topGlobal.generateTopSongReport()
-    
     stop = time.perf_counter()
     elapsedTime = stop - start
-
-    print('-----------------------------------------------------------------------------')
-    print(f'Top Song Report Retrieval Took: {elapsedTime} seconds')
-    print(f'Channel Name: {channel.name}')
-    print(f'User: {user.display_name}')
-    print('-----------------------------------------------------------------------------\n')
-
+    logger.info(f'Top Song Report Retrieval Took: {elapsedTime} seconds')
+    logger.info(f'Channel Name: {channel.name}')
+    logger.info(f'User: {user.display_name}')
     await sendMessage(user, channel, report, False)
 
 #########################################################################################################
@@ -46,18 +43,12 @@ async def top(user, channel, topUs, topGlobal):
 
 async def tiktok(user, channel, tiktokSong):
     start = time.perf_counter()
-
     report = tiktokSong.generateTopSongReport()
-    
     stop = time.perf_counter()
     elapsedTime = stop - start
-
-    print('-----------------------------------------------------------------------------')
-    print(f'Top TikTok Song Report Retrieval Took: {elapsedTime} seconds')
-    print(f'Channel Name: {channel.name}')
-    print(f'User: {user.display_name}')
-    print('-----------------------------------------------------------------------------\n')
-
+    logger.info(f'Top TikTok Song Report Retrieval Took: {elapsedTime} seconds')
+    logger.info(f'Channel Name: {channel.name}')
+    logger.info(f'User: {user.display_name}')
     await sendMessage(user, channel, report, False)
 
 #########################################################################################################
@@ -70,7 +61,6 @@ async def tiktok(user, channel, tiktokSong):
 async def random(user, channel, songs):
     randomIndex = rand.randint(0, len(songs) - 1)
     randomSong = rand.randint(0, len(songs[randomIndex]) - 1)
-
     await sendMessage(user, channel, songs[randomIndex][randomSong].generateRandomSongReport(), False)
 
 #########################################################################################################
