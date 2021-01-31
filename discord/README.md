@@ -59,6 +59,6 @@ The following are permission requirements needed by the **Shuffle** bot
 ## Startup
 - Navigate to the ***Shuffle/discord*** directory
 - Execute the following command to start up the bot:
-  - **python shuffle.py**
+  - **python bot.py**
 - View logs and verify no startup errors appears
 - View Discord server and verify **Shuffle Bot** appears online

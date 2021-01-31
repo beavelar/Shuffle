@@ -2,7 +2,7 @@
 FROM python:3.8.3
 
 # Working directory
-WORKDIR /shuffle
+WORKDIR /discord
 
 # Copy dependencies file to the working directory
 COPY requirements.txt .
@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Start app
-CMD ["python", "-u", "./shuffle.py"]
+CMD ["python", "-u", "./bot.py"]
