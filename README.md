@@ -17,7 +17,7 @@ Invite **Shuffle** into your **Discord** server using the invatation [link](http
 ## Requirements
 - Docker
 
-View the ***discord*** [Readme](/discord/README.md) and ***web-scraper*** [Readme](/web-scraper/README.md) if not running through **Docker**
+View the ***discord*** [readme](/discord/README.md) and ***web-scraper*** [readme](/web-scraper/README.md) if not running through **Docker**
 
 ## Setup
 - Clone the repository
@@ -26,8 +26,8 @@ View the ***discord*** [Readme](/discord/README.md) and ***web-scraper*** [Readm
   - Use the **.env.template** file as a template
 - In the **.env** file, modify the following fields
   - FIELDS
-- Follow the ***discord*** [Setup](/discord/README.md#setup) steps
-- Follow the ***web-scraper*** [Setup](/web-scraper/README.md#setup) steps
+- Follow the ***discord*** [setup](/discord/README.md#setup) steps
+- Follow the ***web-scraper*** [setup](/web-scraper/README.md#setup) steps
 
 ## Startup
 - Navigate to the ***Shuffle*** directory
