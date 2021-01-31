@@ -1,11 +1,8 @@
 import time
-
-from shuffle_util.thread import Thread
-from shuffle_util.request import Request
-
-from spotify_util.spotify_util import getTop200List
-
-from tokboard_util.tokboard_util import getTopTikTokSong
+from util.shuffle.thread import Thread
+from util.shuffle.request import Request
+from util.spotify.spotify_util import getTop200List
+from util.tokboard.tokboard_util import getTopTikTokSong
 
 #########################################################################################################
 # Builds top song cache to be used when top command is executed

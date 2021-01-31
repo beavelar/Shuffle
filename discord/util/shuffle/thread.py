@@ -1,6 +1,5 @@
 import threading
-
-from spotify_util.spotify_util import getTop200List
+from util.spotify.spotify_util import getTop200List
 
 class Thread(threading.Thread):
     def __init__(self, name, chart, region, songs):

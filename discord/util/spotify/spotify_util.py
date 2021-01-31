@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
-from spotify_util.Song import Song
+from util.spotify.Song import Song
 
 #########################################################################################################
 # Retrieves the top song from Spotify charts provided the region

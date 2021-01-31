@@ -1,14 +1,11 @@
 import os
 import aiocron
 from dotenv import load_dotenv
-
 from discord.ext import commands
-
-from discord_util.discord_imp import createChannels
-from discord_util.DiscordMsgType import DiscordMsgType
-
-from shuffle_util.shuffle_case import shuffle_case
-from shuffle_util.cache import buildRandomCache, buildTopSongCache, buildTopSongTikTokCache
+from util.discord.discord_imp import createChannels
+from util.discord.DiscordMsgType import DiscordMsgType
+from util.shuffle.shuffle_case import shuffle_case
+from util.shuffle.cache import buildRandomCache, buildTopSongCache, buildTopSongTikTokCache
 
 #########################################################################################################
 # Global definitions

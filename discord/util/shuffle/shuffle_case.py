@@ -1,8 +1,7 @@
 import time
 import random as rand
-
-from discord_util.discord_imp import sendMessage
-from discord_util.DiscordMsgType import DiscordMsgType
+from util.discord.discord_imp import sendMessage
+from util.discord.DiscordMsgType import DiscordMsgType
 
 #########################################################################################################
 # Displays a help menu message onto the desired Discord channel
