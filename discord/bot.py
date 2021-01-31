@@ -4,7 +4,7 @@ import logging
 from dotenv import load_dotenv
 from discord.ext import commands
 from util.discord.discord_imp import createChannels
-from util.discord.DiscordMsgType import DiscordMsgType
+from util.discord.ActionEnum import ActionEnum
 from util.shuffle.shuffle_case import shuffle_case
 from util.shuffle.cache import buildRandomCache, buildTopSongCache, buildTopSongTikTokCache
 
@@ -59,7 +59,7 @@ async def dailyRandomSong():
     for guild in bot.guilds:
         for channel in guild.channels:
             if channel.category != None and channel.category.name == 'Bots' and channel.name == 'shuffle':
-                await shuffle_case(case=DiscordMsgType.RANDOM, user=bot.user, channel=channel, songs=RANDOM_SONG_CACHE)
+                await shuffle_case(case=ActionEnum.RANDOM, user=bot.user, channel=channel, songs=RANDOM_SONG_CACHE)
 
 #########################################################################################################
 # Generates random song cache daily
@@ -100,16 +100,16 @@ async def random(message, *args):
     global TOP_SONG_TIKTOK_CACHE
 
     if (len(args) == 0):
-        await shuffle_case(case=DiscordMsgType.RANDOM, user=bot.user, channel=message.channel, songs=RANDOM_SONG_CACHE)
+        await shuffle_case(case=ActionEnum.RANDOM, user=bot.user, channel=message.channel, songs=RANDOM_SONG_CACHE)
 
-    if (DiscordMsgType.TOP in args):
-        await shuffle_case(case=DiscordMsgType.TOP, user=bot.user, channel=message.channel, us_songs=TOP_SONG_US_CACHE, global_songs=TOP_SONG_GLOBAL_CACHE)
+    if (ActionEnum.TOP in args):
+        await shuffle_case(case=ActionEnum.TOP, user=bot.user, channel=message.channel, us_songs=TOP_SONG_US_CACHE, global_songs=TOP_SONG_GLOBAL_CACHE)
     
-    if (DiscordMsgType.TIKTOK in args):
-        await shuffle_case(case=DiscordMsgType.TIKTOK, user=bot.user, channel=message.channel, tiktok=TOP_SONG_TIKTOK_CACHE)
+    if (ActionEnum.TIKTOK in args):
+        await shuffle_case(case=ActionEnum.TIKTOK, user=bot.user, channel=message.channel, tiktok=TOP_SONG_TIKTOK_CACHE)
 
-    if (DiscordMsgType.HELP in args):
-        await shuffle_case(case=DiscordMsgType.HELP, user=bot.user, channel=message.channel, help=HELP_MENU)
+    if (ActionEnum.HELP in args):
+        await shuffle_case(case=ActionEnum.HELP, user=bot.user, channel=message.channel, help=HELP_MENU)
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up

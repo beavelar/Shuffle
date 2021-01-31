@@ -1,4 +1,4 @@
-class DiscordMsgType:
+class ActionEnum:
     HELP = 'help'
     TOP = 'top'
     TIKTOK = 'tiktok'
