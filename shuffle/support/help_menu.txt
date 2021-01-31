@@ -1,8 +1,0 @@
-__**Help Menu**__
-Shuffle bot messages out a random song every day.  To get an immediate response, use the following commands
-
-
-__**Commands:**__
-**!shuffle**: Displays random song
-**!shuffle top**: Displays top song (US and Global)
-**!shuffle tiktok**: Displays top TikTok song
