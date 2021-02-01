@@ -1,3 +1,10 @@
 services:
   discord:
     build: ./discord
+  web-scraper:
+    build: ./web-scraper
+    ports:
+      - "${WEB_SCRAPER_PORT}:${WEB_SCRAPER_PORT}"
+    environment:
+      - WEB_SCRAPER_PORT=${WEB_SCRAPER_PORT}
+      - WEB_SCRAPER_HOSTNAME=${WEB_SCRAPER_HOSTNAME}

@@ -17,6 +17,8 @@ Uses [SpotifyCharts](https://spotifycharts.com/regional) and [Tokboard](https://
   - [Python Organization Website](https://www.python.org/)
 - Python Libraries
   - Dotenv: [Dotenv Installation Guide](https://pypi.org/project/python-dotenv/)
+  - Requests: [Requests Installation Guide](https://pypi.org/project/requests/)
+  - BeautifulSoup4: [BeautifulSoup4 Installation Guide](https://pypi.org/project/beautifulsoup4/)
   - Aiocron: [Aiocron Installation Guide](https://pypi.org/project/aiocron/)
 
 To install the required libraries using the requirements.txt file, execute the following command:
