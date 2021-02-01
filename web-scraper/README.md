@@ -13,7 +13,10 @@ Uses [SpotifyCharts](https://spotifycharts.com/regional) and [Tokboard](https://
 ----------------------------------
 
 ## Requirements
-- Coming soon
+- Python
+  - [Python Organization Website](https://www.python.org/)
+- Python Libraries
+  - Dotenv: [Dotenv Installation Guide](https://pypi.org/project/python-dotenv/)
 
 ## Setup
 - Coming soon

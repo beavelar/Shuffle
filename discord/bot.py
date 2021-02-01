@@ -35,7 +35,7 @@ try:
     BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
     BOT_TRIGGER = os.getenv('DISCORD_BOT_TRIGGER')
 except Exception as ex:
-    logger.critical('Failed to retrieving environment variables. Please verify environment variable exists')
+    logger.critical('Failed to retrieve environment variables. Please verify environment variable exists')
     logger.critical(str(ex))
     exit(1)
 
