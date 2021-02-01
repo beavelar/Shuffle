@@ -1,5 +1,6 @@
 import time
 import logging
+from util.spotify.Song import Song
 from util.shuffle.thread import Thread
 from util.shuffle.request import Request
 from util.spotify.spotify_util import getTop200List
@@ -8,11 +9,20 @@ from util.tokboard.tokboard_util import getTopTikTokSong
 logger = logging.getLogger(__name__)
 
 #########################################################################################################
-# Builds top song cache to be used when top command is executed
-#
-# Returns: Song
 
-async def buildTopSongCache(urlExt, region):
+async def buildTopSongCache(urlExt, region) -> Song:
+    '''
+    Builds top song cache to be used when top command is executed
+
+    ...
+
+    Arguments
+    -------
+    urlExt : str
+    
+    region : str
+    '''
+
     logger.info(f'Building top song cache for: {region}')
     start = time.perf_counter()
     top200 = getTop200List(urlExt, region)
@@ -22,11 +32,10 @@ async def buildTopSongCache(urlExt, region):
     return top200[0]
 
 #########################################################################################################
-# Builds top tiktok song cache to be used when tiktok command is executed
-#
-# Returns: Song
 
-async def buildTopSongTikTokCache():
+async def buildTopSongTikTokCache() -> Song:
+    '''Builds top tiktok song cache to be used when tiktok command is executed'''
+
     logger.info(f'Building top TikTok song cache')
     start = time.perf_counter()
     topTikTokSong = getTopTikTokSong()
@@ -36,11 +45,10 @@ async def buildTopSongTikTokCache():
     return topTikTokSong
 
 #########################################################################################################
-# Builds random song cache to be used when random command is executed
-#
-# Returns: List of Song
 
-async def buildRandomCache():
+async def buildRandomCache() -> [Song]:
+    '''Builds random song cache to be used when random command is executed'''
+
     logger.info(f'Building random song cache')
     start = time.perf_counter()
     threads = []

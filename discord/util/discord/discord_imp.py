@@ -1,4 +1,6 @@
 import logging
+from discord import channel
+from discord import Message
 from discord import NotFound
 from discord import Forbidden
 from discord import HTTPException
@@ -7,16 +9,22 @@ from discord import PermissionOverwrite
 logger = logging.getLogger(__name__)
 
 #########################################################################################################
-# Retrieves specific message provided the Discord message URL
-#
-# Parameters
-# bot: User (Discord API)
-# channel: Channel (Discord API)
-# url: string
-#
-# Returns: None or string
 
-async def fetchMessage(bot, channel, url):
+async def fetchMessage(bot, channel, url) -> str:
+    '''
+    Retrieves specific message provided the Discord message URL
+
+    ...
+
+    Arguments
+    ----------
+    bot : discord.User
+    
+    channel : discord.Channel
+    
+    url : str
+    '''
+
     fetchMessage = None
     parsedMessage = url.split('/')
 
@@ -54,16 +62,22 @@ async def fetchMessage(bot, channel, url):
     return fetchedMessage
 
 #########################################################################################################
-# Retrieves the channel message history (Limited number of messages to lower sizes)
-#
-# Parameters
-# bot: User (Discord API)
-# channel: Channel (Discord API)
-# msgLimit: integer
-#
-# Returns: None or List of Message (Discord API)
 
-async def getMessageHistory(bot, channel, msgLimit):
+async def getMessageHistory(bot, channel, msgLimit) -> [Message]:
+    '''
+    Retrieves the channel message history (Limited number of messages to lower sizes)
+
+    ...
+
+    Arguments
+    ----------
+    bot : discord.User
+    
+    channel : discord.Channel
+    
+    msgLimit : int
+    '''
+
     messageHistory = None
     logger.info('Retrieving Message History')
     logger.info(f'Channel Name: {channel.name}')
@@ -83,15 +97,24 @@ async def getMessageHistory(bot, channel, msgLimit):
     return messageHistory
 
 #########################################################################################################
-# Send message out to desired channel.  Pins message if opted for
-#
-# Parameters
-# bot: User (Discord API)
-# channel: Channel (Discord API)
-# message: string
-# pin: boolean
 
-async def sendMessage(bot, channel, message, pin):
+async def sendMessage(bot, channel, message, pin) -> None:
+    '''
+    Send message out to desired channel.  Pins message if opted for
+    
+    ...
+
+    Arguments
+    ----------
+    bot : discord.User
+    
+    channel : discord.Channel
+    
+    message : str
+    
+    pin : boolean
+    '''
+
     logger.info('Sending Message')
     logger.info(f'Channel Name: {channel.name}')
     logger.info(f'Message: {message}')
@@ -116,12 +139,18 @@ async def sendMessage(bot, channel, message, pin):
         logger.error(f'Message: {message}')
 
 #########################################################################################################
-# Delete desired message
-#
-# Parameters
-# message: Message (Discord API)
 
-async def deleteMessage(message):
+async def deleteMessage(message) -> None:
+    '''
+    Delete desired message
+
+    ...
+
+    Arguments
+    ----------
+    message : discord.Message
+    '''
+
     logger.info('Deleting Message')
     logger.info(f'Author: {message.author.display_name}')
     logger.info(f'Message: {message.clean_content}')
@@ -135,15 +164,27 @@ async def deleteMessage(message):
         logger.error(f'Message: {message.clean_content}')
 
 #########################################################################################################
-# Creates channel in all guilds if channel doesn't exist. Channel is created with desired category name
-# and desired channel name
-#
-# Parameters
-# guilds: List of Guild (Discord API)
-# categoryName: String
-# channelName: String
 
-async def createChannels(guilds, bot, categoryName, channelName, welcomeMessage):
+async def createChannels(guilds, bot, categoryName, channelName, welcomeMessage) -> None:
+    '''
+    Creates channel in all guilds if channel doesn't exist. Channel is created with desired category name
+    and desired channel name
+
+    ...
+
+    Arguments
+    ----------
+    guilds : [discord.Guild]
+
+    bot : discord.User
+    
+    categoryName : str
+    
+    channelName : str
+
+    welcomeMessage : str
+    '''
+    
     for guild in guilds:
         try:
             category = await createCategory(guild, categoryName)
@@ -161,15 +202,21 @@ async def createChannels(guilds, bot, categoryName, channelName, welcomeMessage)
             logger.error(f'Guild: {guild.name}')
 
 #########################################################################################################
-# Creates desired channel category if it doesn't already exist in the guild
-#
-# Parameters
-# guild: Guild (Discord API)
-# name: String
-#
-# Returns: Category (Discord API)
 
-async def createCategory(guild, name):
+async def createCategory(guild, name) -> None:
+    '''
+    Creates channel in all guilds if channel doesn't exist. Channel is created with desired category name
+    and desired channel name
+
+    ...
+
+    Arguments
+    ----------
+    guild : discord.Guild
+    
+    name : str
+    '''
+
     for category in guild.categories:
         if category.name == name:
             return category
@@ -190,31 +237,42 @@ async def createCategory(guild, name):
         raise ex
 
 #########################################################################################################
-# Creates desired channel in the desired guild and category
-#
-# Parameters
-# guild: Guild (Discord API)
-# category: Category (Discord API)
-# name: String
-#
-# Returns: Channel (Discord API)
 
-async def createChannel(guild, category, name):
+async def createChannel(guild, category, name) -> channel:
+    '''
+    Creates desired channel in the desired guild and category
+
+    ...
+
+    Arguments
+    ----------
+    guild : discord.Guild
+    
+    category : discord.Category
+    
+    name : str
+    '''
+
     logger.info(f'Creating {name} channel')
     logger.info(f'Guild: {guild.name}')
     logger.info(f'Category: {category.name}')
     return await guild.create_text_channel(name, category=category)
 
 #########################################################################################################
-# Searches if desired channel name exists
-#
-# Parameters
-# category: Category (Discord API)
-# name: String
-#
-# Returns: None or Channel (Discord API)
 
-def findChannel(category, name):
+def findChannel(category, name) -> channel:
+    '''
+    Searches if desired channel name exists
+
+    ...
+
+    Arguments
+    ----------
+    category : discord.Category
+    
+    name : str
+    '''
+
     for channel in category.channels:
         if channel.name == name:
             return channel

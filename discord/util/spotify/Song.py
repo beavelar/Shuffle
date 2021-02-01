@@ -1,10 +1,27 @@
 class Song:
-    # __init__ - Constructor
-    #
-    # Parameters:
-    # region: string
-    # title: string
-    # streams: string
+    '''
+    Thread class used to conduct the multi-threaded requests
+
+    ...
+
+    Attributes
+    ----------
+    region : str
+    
+    title : str
+
+    artist : str
+    
+    streams : str
+
+    ...
+
+    Methods
+    -------
+    generateTopSongReport() -> str : Helper function to generate a simple report with simple markdown features
+
+    generateRandomSongReport() -> str : Helper function to generate a simple report with simple markdown features
+    '''
 
     def __init__(self, region, title, artist, streams):
         self.region = region
@@ -13,11 +30,10 @@ class Song:
         self.streams = streams
 
 #########################################################################################################
-    # generateTopSongReport - Helper function to generate a simple report with simple markdown features
-    #
-    # Returns: string
     
-    def generateTopSongReport(self):
+    def generateTopSongReport(self) -> str:
+        '''Helper function to generate a simple report with simple markdown features'''
+
         heading = '**' + self.region + '**\n'
         title = 'Top Song: ' + self.title + '\n'
         artist = 'Artist: ' + self.artist + '\n'
@@ -26,11 +42,10 @@ class Song:
         return heading + title + artist + streams
 
 #########################################################################################################
-    # generateRandomSongReport - Helper function to generate a simple report with simple markdown features
-    #
-    # Returns: string
     
-    def generateRandomSongReport(self):
+    def generateRandomSongReport(self) -> str:
+        '''Helper function to generate a simple report with simple markdown features'''
+
         heading = '**Random Song**\n'
         title = 'Song: ' + self.title + '\n'
         artist = 'Artist: ' + self.artist + '\n'

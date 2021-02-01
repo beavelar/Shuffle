@@ -3,31 +3,38 @@ from bs4 import BeautifulSoup
 from util.spotify.Song import Song
 
 #########################################################################################################
-# Retrieves the top song from Spotify charts provided the region
-#
-# Parameters
-# urlExt: string
-# region: string
-# regionHeading: string
-#
-# Returns: Song Object
 
-def getTopSong(urlExt, region):
+def getTopSong(urlExt, region) -> Song:
+    '''
+    Retrieves the top song from Spotify charts provided the region
+
+    ...
+
+    Arguments
+    ----------
+    urlExt : str
+    
+    region : str
+    '''
+
     top200 = getTop200List(urlExt, region)
-
     return top200[0]
 
 #########################################################################################################
-# Retrieves a list of the top 200 songs from Spotify charts provided the region
-#
-# Parameters
-# urlExt: string
-# region: string
-# regionHeading: string
-#
-# Returns: List of Song Objects
 
-def getTop200List(urlExt, region):
+def getTop200List(urlExt, region) -> [Song]:
+    '''
+    Retrieves a list of the top 200 songs from Spotify charts provided the region
+
+    ...
+
+    Arguments
+    ----------
+    urlExt : string
+    
+    region : string
+    '''
+
     songs = []
     artists = []
     streams = []
