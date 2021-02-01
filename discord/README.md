@@ -54,7 +54,7 @@ The following are permission requirements needed by the **Shuffle** bot
     ![Token Reveal](/images/token-reveal-snap.PNG)
 - In the **.env** file, modify the following fields
   - **DISCORD_BOT_TOKEN**=***Shuffle bot secret token***
-  - **DISCORD_BOT_TRIGGER**=**shuffle**
+  - **DISCORD_BOT_TRIGGER**=***shuffle***
 
 ## Startup
 - Navigate to the ***Shuffle/discord*** directory

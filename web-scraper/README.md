@@ -19,7 +19,15 @@ Uses [SpotifyCharts](https://spotifycharts.com/regional) and [Tokboard](https://
   - Dotenv: [Dotenv Installation Guide](https://pypi.org/project/python-dotenv/)
 
 ## Setup
-- Coming soon
+- Navigate to the ***Shuffle/web-scraper*** directory
+- Create a **.env** file
+  - Use the **.env.template** file as a template
+- In the **.env** file, modify the following fields
+  - **WEB_SCRAPER_HOSTNAME**=***Web-scraper hostname***
+  - **WEB_SCRAPER_PORT**=***Web-scraper port***
 
 ## Startup
-- Coming soon
+- Navigate to the ***Shuffle/web-scraper*** directory
+- Execute the following command to start up the bot:
+  - **python server.py**
+- View logs and verify no startup errors appears
