@@ -1,9 +1,9 @@
 import os
-import time
 import json
 import aiocron
 import asyncio
 import logging
+import random as rand
 from dotenv import load_dotenv
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from util.web.cache import buildRandomCache, buildTopSongCache, buildTopSongTikTokCache
@@ -44,16 +44,20 @@ class Server(BaseHTTPRequestHandler):
         logger.info(f'Received GET request - Path: {self.path}')
         self.set_headers()
 
-        if 'get_random_song' in self.path:
-            logger.info('Random')
-        elif 'get_top_song' in self.path:
-            logger.info('Top')
-        elif 'get_tiktok_song' in self.path:
-            logger.info('TikTok')
-        
-        response = json.dumps({'hello': 'world', 'received': 'ok'})
-        logger.info(f'Response: {response}')
-        self.wfile.write(response.encode('utf-8'))
+        if '/get_random_song' == self.path:
+            randomIndex = rand.randint(0, len(RANDOM_SONG_CACHE) - 1)
+            randomSongIndex = rand.randint(0, len(RANDOM_SONG_CACHE[randomIndex]) - 1)
+            randomSong = RANDOM_SONG_CACHE[randomIndex][randomSongIndex]
+            response = json.dumps({'random': randomSong.__dict__})
+            self.wfile.write(response.encode('utf-8'))
+        elif '/get_top_song' == self.path:
+            response = json.dumps({'us': TOP_SONG_US_CACHE.__dict__, 'global': TOP_SONG_GLOBAL_CACHE.__dict__})
+            logger.info(f'Response: {response}')
+            self.wfile.write(response.encode('utf-8'))
+        elif '/get_tiktok_song' == self.path:
+            response = json.dumps({'tiktok': TOP_SONG_TIKTOK_CACHE.__dict__})
+            logger.info(f'Response: {response}')
+            self.wfile.write(response.encode('utf-8'))
 
 #########################################################################################################
 # Generates random song cache daily
