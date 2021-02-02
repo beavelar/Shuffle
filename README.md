@@ -25,7 +25,9 @@ View the ***discord*** [readme](/discord/README.md) and ***web-scraper*** [readm
 - Create a **.env** file
   - Use the **.env.template** file as a template
 - In the **.env** file, modify the following fields
-  - FIELDS
+  - **WEB_SCRAPER_PROTOCOL**=***Web-scraper protocol***
+  - **WEB_SCRAPER_PORT**=***Web-scraper port***
+  - **WEB_SCRAPER_HOSTNAME**=***Web-scraper hostname***
 - Follow the ***discord*** [setup](/discord/README.md#setup) steps
 - Follow the ***web-scraper*** [setup](/web-scraper/README.md#setup) steps
 
