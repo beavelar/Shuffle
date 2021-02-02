@@ -18,7 +18,6 @@ Invite **Shuffle** into your **Discord** server using the invatation [link](http
   - Discord.py: [Discord.py Installation Guide](https://discordpy.readthedocs.io/en/latest/intro.html)
   - Dotenv: [Dotenv Installation Guide](https://pypi.org/project/python-dotenv/)
   - Requests: [Requests Installation Guide](https://pypi.org/project/requests/)
-  - BeautifulSoup4: [BeautifulSoup4 Installation Guide](https://pypi.org/project/beautifulsoup4/)
   - Aiocron: [Aiocron Installation Guide](https://pypi.org/project/aiocron/)
 
 To install the required libraries using the requirements.txt file, execute the following command:
