@@ -6,7 +6,6 @@ from discord.ext import commands
 from util.discord.ActionEnum import ActionEnum
 from util.discord.discord_imp import createChannels
 from util.shuffle.shuffle_case import shuffle_case
-from util.shuffle.cache import buildRandomCache, buildTopSongCache, buildTopSongTikTokCache
 
 #########################################################################################################
 # Global definitions
@@ -34,15 +33,17 @@ try:
     load_dotenv()
     BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
     BOT_TRIGGER = os.getenv('DISCORD_BOT_TRIGGER')
+
+    WEB_SCRAPER_SETTINGS = {
+        'protocol': os.getenv('WEB_SCRAPER_PROTOCOL'),
+        'hostname': os.getenv('WEB_SCRAPER_HOSTNAME'),
+        'port': os.getenv('WEB_SCRAPER_PORT')
+    }
 except Exception as ex:
     logger.critical('Failed to retrieve environment variables. Please verify environment variable exists')
     logger.critical(str(ex))
     exit(1)
 
-RANDOM_SONG_CACHE = []
-TOP_SONG_US_CACHE = None
-TOP_SONG_GLOBAL_CACHE = None
-TOP_SONG_TIKTOK_CACHE = None
 bot = commands.Bot(command_prefix='!')
 bot.remove_command('help')
 
@@ -51,40 +52,10 @@ bot.remove_command('help')
 
 @aiocron.crontab('0 17 * * *')
 async def dailyRandomSong():
-    global RANDOM_SONG_CACHE
-    global TOP_SONG_US_CACHE
-    global TOP_SONG_GLOBAL_CACHE
-    global TOP_SONG_TIKTOK_CACHE
-
     for guild in bot.guilds:
         for channel in guild.channels:
             if channel.category != None and channel.category.name == 'Bots' and channel.name == 'shuffle':
-                await shuffle_case(case=ActionEnum.RANDOM, user=bot.user, channel=channel, songs=RANDOM_SONG_CACHE)
-
-#########################################################################################################
-# Generates random song cache daily
-
-@aiocron.crontab('0 0 */1 * *')
-async def randomSongCache():
-    global RANDOM_SONG_CACHE
-    RANDOM_SONG_CACHE = await buildRandomCache()
-
-#########################################################################################################
-# Generates random song cache hourly
-
-@aiocron.crontab('0 */1 * * *')
-async def topSongCache():
-    global TOP_SONG_US_CACHE
-    global TOP_SONG_GLOBAL_CACHE
-    global TOP_SONG_TIKTOK_CACHE
-
-    try:
-        TOP_SONG_TIKTOK_CACHE = await buildTopSongTikTokCache()
-        TOP_SONG_US_CACHE = await buildTopSongCache('regional', 'us')
-        TOP_SONG_GLOBAL_CACHE = await buildTopSongCache('regional', 'global')
-    except Exception as ex:
-        logger.error('Unknown exception caught building cache at cron job')
-        logger.error(str(ex))
+                await shuffle_case(case=ActionEnum.RANDOM, user=bot.user, channel=channel, web=WEB_SCRAPER_SETTINGS)
 
 #########################################################################################################
 # Bot trigger command handler - Discord function that executes after bot command is received
@@ -94,43 +65,23 @@ async def topSongCache():
 
 @bot.command(name=BOT_TRIGGER)
 async def random(message, *args):
-    global RANDOM_SONG_CACHE
-    global TOP_SONG_US_CACHE
-    global TOP_SONG_GLOBAL_CACHE
-    global TOP_SONG_TIKTOK_CACHE
-
     if (len(args) == 0):
-        await shuffle_case(case=ActionEnum.RANDOM, user=bot.user, channel=message.channel, songs=RANDOM_SONG_CACHE)
+        await shuffle_case(case=ActionEnum.RANDOM, user=bot.user, channel=message.channel, web=WEB_SCRAPER_SETTINGS)
 
     if (ActionEnum.TOP in args):
-        await shuffle_case(case=ActionEnum.TOP, user=bot.user, channel=message.channel, us_songs=TOP_SONG_US_CACHE, global_songs=TOP_SONG_GLOBAL_CACHE)
+        await shuffle_case(case=ActionEnum.TOP, user=bot.user, channel=message.channel, web=WEB_SCRAPER_SETTINGS)
     
     if (ActionEnum.TIKTOK in args):
-        await shuffle_case(case=ActionEnum.TIKTOK, user=bot.user, channel=message.channel, tiktok=TOP_SONG_TIKTOK_CACHE)
+        await shuffle_case(case=ActionEnum.TIKTOK, user=bot.user, channel=message.channel, web=WEB_SCRAPER_SETTINGS)
 
     if (ActionEnum.HELP in args):
-        await shuffle_case(case=ActionEnum.HELP, user=bot.user, channel=message.channel, help=HELP_MENU)
+        await shuffle_case(case=ActionEnum.HELP, user=bot.user, channel=message.channel, web=WEB_SCRAPER_SETTINGS, help=HELP_MENU)
 
 #########################################################################################################
 # On_ready handler - Executes after bot starts up
 
 @bot.event
 async def on_ready():
-    global RANDOM_SONG_CACHE
-    global TOP_SONG_US_CACHE
-    global TOP_SONG_GLOBAL_CACHE
-    global TOP_SONG_TIKTOK_CACHE
-
-    try:
-        RANDOM_SONG_CACHE = await buildRandomCache()
-        TOP_SONG_TIKTOK_CACHE = await buildTopSongTikTokCache()
-        TOP_SONG_US_CACHE = await buildTopSongCache('regional', 'us')
-        TOP_SONG_GLOBAL_CACHE = await buildTopSongCache('regional', 'global')
-    except Exception as ex:
-        logger.error('Unknown exception caught building cache at startup')
-        logger.error(str(ex))
-
-
     logger.info(f'{bot.user} has connected')
     await createChannels(bot.guilds, bot.user, 'Bots', 'shuffle', WELCOME_MESSAGE)
 

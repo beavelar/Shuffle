@@ -1,6 +1,8 @@
 import time
 import logging
-import random as rand
+from util.rest.rest import get_top_song
+from util.rest.rest import get_tiktok_song
+from util.rest.rest import get_random_song
 from util.shuffle.ShuffleEnum import ShuffleEnum
 from util.discord.discord_imp import sendMessage
 from util.discord.ActionEnum import ActionEnum
@@ -9,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 #########################################################################################################
 
-async def help(user, channel, helpMenu) -> None:
+async def help(user, channel, help) -> None:
     '''
     Displays a help menu message onto the desired Discord channel
 
@@ -21,14 +23,14 @@ async def help(user, channel, helpMenu) -> None:
     
     channel : discord.Channel
     
-    helpMenu : str
+    help : str
     '''
 
-    await sendMessage(user, channel, helpMenu, False)
+    await sendMessage(user, channel, help, False)
 
 #########################################################################################################
 
-async def top(user, channel, topUs, topGlobal) -> None:
+async def top(user, channel, web) -> None:
     '''
     Displays the current top regional song (Global/US) onto the desired Discord channel
 
@@ -40,12 +42,11 @@ async def top(user, channel, topUs, topGlobal) -> None:
     
     channel : discord.Channel
 
-    topUs : Song
-
-    topGlobal : Song
+    web : Dict -> { protocol: str, hostname: str, port: str }
     '''
 
     start = time.perf_counter()
+    topUs, topGlobal = get_top_song(protocol=web.get('protocol'), hostname=web.get('hostname'), port=web.get('port'))
     report = topUs.generateTopSongReport() + '\n\n' + topGlobal.generateTopSongReport()
     stop = time.perf_counter()
     elapsedTime = stop - start
@@ -56,7 +57,7 @@ async def top(user, channel, topUs, topGlobal) -> None:
 
 #########################################################################################################
 
-async def tiktok(user, channel, tiktokSong) -> None:
+async def tiktok(user, channel, web) -> None:
     '''
     Displays the current top TikTok song onto the desired Discord channel
 
@@ -68,10 +69,11 @@ async def tiktok(user, channel, tiktokSong) -> None:
     
     channel : discord.Channel
 
-    tiktokSong : Song
+    web : Dict -> { protocol: str, hostname: str, port: str }
     '''
 
     start = time.perf_counter()
+    tiktokSong = get_tiktok_song(protocol=web.get('protocol'), hostname=web.get('hostname'), port=web.get('port'))
     report = tiktokSong.generateTopSongReport()
     stop = time.perf_counter()
     elapsedTime = stop - start
@@ -82,7 +84,7 @@ async def tiktok(user, channel, tiktokSong) -> None:
 
 #########################################################################################################
 
-async def random(user, channel, songs) -> None:
+async def random(user, channel, web) -> None:
     '''
     Displays a random song (compiled from top songs) onto the desired Discord channel
 
@@ -94,12 +96,11 @@ async def random(user, channel, songs) -> None:
     
     channel : discord.Channel
     
-    songs : [Song]
+    web : Dict -> { protocol: str, hostname: str, port: str }
     '''
 
-    randomIndex = rand.randint(0, len(songs) - 1)
-    randomSong = rand.randint(0, len(songs[randomIndex]) - 1)
-    await sendMessage(user, channel, songs[randomIndex][randomSong].generateRandomSongReport(), False)
+    random = get_random_song(protocol=web.get('protocol'), hostname=web.get('hostname'), port=web.get('port'))
+    await sendMessage(user, channel, random.generateRandomSongReport(), False)
 
 #########################################################################################################
 
@@ -116,32 +117,24 @@ async def shuffle_case(**args) -> None:
     user : User (Discord API)
     
     channel : Channel (Discord API)
+
+    web : Dict -> { protocol: str, hostname: str, port: str }
     
-    songs : List of Song
-    
-    helpMenu : str
+    help : str
     '''
 
-    if ShuffleEnum.CASE in args and ShuffleEnum.USER in args and ShuffleEnum.CHANNEL in args:
+    if ShuffleEnum.CASE in args and ShuffleEnum.USER in args and ShuffleEnum.CHANNEL:
         if args.get('case') == ActionEnum.HELP:
             if ShuffleEnum.HELP in args:
                 await help(args.get('user'), args.get('channel'), args.get('help'))
             else:
                 logger.warning('Help menu not provided, ignoring function call')
-        elif args.get('case') == ActionEnum.TOP:
-            if ShuffleEnum.US_SONGS in args and ShuffleEnum.GLOBAL_SONGS in args:
-                await top(args.get('user'), args.get('channel'), args.get('us_songs'), args.get('global_songs'))
-            else:
-                logger.warning('Top us or top global songs not provided, ignoring function call')
-        elif args.get('case') == ActionEnum.TIKTOK:
-            if ShuffleEnum.TIKTOK in args:
-                await tiktok(args.get('user'), args.get('channel'), args.get('tiktok'))
-            else:
-                logger.warning('TikTok song not provided, ignoring function call')
-        elif args.get('case') == ActionEnum.RANDOM:
-            if ShuffleEnum.SONGS in args:
-                await random(args.get('user'), args.get('channel'), args.get('songs'))
-            else:
-                logger.warning('Songs not provided, ignoring function call')
+        elif ShuffleEnum.WEB in args:
+            if args.get('case') == ActionEnum.TOP:
+                await top(args.get('user'), args.get('channel'), args.get('web'))
+            elif args.get('case') == ActionEnum.TIKTOK:
+                await tiktok(args.get('user'), args.get('channel'), args.get('web'))
+            elif args.get('case') == ActionEnum.RANDOM:
+                await random(args.get('user'), args.get('channel'), args.get('web'))
     else:
         logger.warning('Case, user or channel not provided, ignoring function call')
