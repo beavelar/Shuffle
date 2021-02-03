@@ -50,7 +50,7 @@ class Song:
         title = 'Song: ' + self.title + '\n'
         artist = 'Artist: ' + self.artist + '\n'
 
-        if 'N/A' in self.streams:
+        if 'N/A' not in self.streams:
             streams = 'Number of Spotify Streams: ' + self.streams
             return heading + title + artist + streams
         else:
